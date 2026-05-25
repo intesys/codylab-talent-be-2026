@@ -1,0 +1,19 @@
+package it.intesys.codylab;
+
+import it.intesys.codylab.messaggio.Messaggio;
+import it.intesys.codylab.messaggio.MessaggioStatico;
+
+public class MyFirstCodyLabApplication {
+
+
+    public static void main(String[] args) {
+        stampa();
+    }
+
+    private static void stampa() {
+        Messaggio messaggio = new MessaggioStatico();
+        // Messaggio messaggio = new MessaggioFormaGeometrica(new Cerchio(5.0f));
+        // Messaggio messaggio = new MessaggioFormaGeometrica(new Cerchio(6.0f));
+        System.out.println(messaggio.messaggio());
+    }
+}
