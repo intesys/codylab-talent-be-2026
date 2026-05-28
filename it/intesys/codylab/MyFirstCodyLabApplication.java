@@ -2,6 +2,7 @@ package it.intesys.codylab;
 
 import it.intesys.codylab.formageometrica.Rettangolo;
 import it.intesys.codylab.messaggio.Messaggio;
+import it.intesys.codylab.messaggio.MessaggioBaseConAutore;
 import it.intesys.codylab.messaggio.MessaggioFormaGeometrica;
 
 public class MyFirstCodyLabApplication {
@@ -17,6 +18,7 @@ public class MyFirstCodyLabApplication {
         //Messaggio messaggio = new MessaggioFormaGeometrica(new Cerchio(6.0f));//Dato un Cerchio con raggio 6.0 l'area misura 113.097336 e il perimetro 37.699112
         //Messaggio messaggio = new MessaggioFormaGeometrica(new Quadrato(5.0f));//Dato un Quadrato con lato 5.0 l'area misura 25.0 e il perimetro 20.0
         Messaggio messaggio = new MessaggioFormaGeometrica(new Rettangolo(5.0f,6.0f));
+        //Messaggio messaggio = new MessaggioBaseConAutore("Leonardo") ;
         System.out.println(messaggio.messaggio());
         //System.out.println(mess.messaggio());
     }
