@@ -1,6 +1,6 @@
 package it.intesys.codylab.messaggio;
 
-public class MessaggioStatico {
+public class MessaggioStatico implements Messaggio {
 
     private final String nome;
 
