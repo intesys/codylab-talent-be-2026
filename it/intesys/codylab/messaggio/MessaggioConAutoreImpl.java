@@ -2,7 +2,7 @@ package it.intesys.codylab.messaggio;
 
 public class MessaggioConAutoreImpl extends MessaggioBaseConAutore {
 
-    protected MessaggioConAutoreImpl(String autore) {
+    public MessaggioConAutoreImpl(String autore) {
         super(autore);
     }
 
