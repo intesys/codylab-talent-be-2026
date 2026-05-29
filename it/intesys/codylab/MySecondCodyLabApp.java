@@ -1,13 +1,11 @@
 package it.intesys.codylab;
 
-import it.intesys.codylab.messaggio.Messaggio;
-import it.intesys.codylab.messaggio.MessaggioConAutoreImpl;
-import it.intesys.codylab.messaggio.MessaggioStatico;
+import it.intesys.codylab.messaggio.*;
 
 public class MySecondCodyLabApp {
 
     public static void main(String[] args) {
-        Messaggio message = new MessaggioConAutoreImpl("Michele");
+        Messaggio message = MessaggioConAutoreImplFactory.getInstance("Betty");
         System.out.println(message.messaggio());
     }
 
