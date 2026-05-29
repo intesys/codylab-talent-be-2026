@@ -2,12 +2,11 @@ package it.intesys.codylab.messaggio;
 
 public class MessaggioConAutoreImpl extends MessaggioBaseConAutore {
 
-    protected MessaggioConAutoreImpl(String autore) {
-        super(autore);
+    public MessaggioConAutoreImpl(String autore) {
+        this.autore = autore;
     }
 
-    @Override
     public String messaggio() {
-        return "";
+        return "Benvenuto in CodyLab da parte di " + autore();
     }
 }

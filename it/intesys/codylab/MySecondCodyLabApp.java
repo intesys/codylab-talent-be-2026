@@ -7,7 +7,8 @@ import it.intesys.codylab.messaggio.MessaggioStatico;
 public class MySecondCodyLabApp {
 
     public static void main(String[] args) {
-        Messaggio message = new MessaggioImpl();
+        Messaggio message = new MessaggioConAutoreImpl("Stanley");
+        //Messaggio message = new MessaggioImpl();
         System.out.println(message.messaggio());
     }
 
