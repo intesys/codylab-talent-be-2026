@@ -39,7 +39,16 @@ public class ProdottoService {
         return prodotti;
     }
 
+    //es 2
     public boolean deleteProdotto(int id) {
+        // cerca il prodotto con l'ID
+        Optional<Prodotto> prodottoDaCancellare = getProdottoById(id);
+
+        //se esiste, toglilo.
+        if (prodottoDaCancellare.isPresent()) {
+            return prodotti.remove(prodottoDaCancellare.get());
+        }
+
         return false;
     }
 }
