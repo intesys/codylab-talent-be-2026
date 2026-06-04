@@ -15,6 +15,12 @@ public class ProdottiMain {
     public static void catalogoProdotti() {
         System.out.println("Inizio");
         ProdottoService prodottoService = new ProdottoService();
+        List<Prodotto> primaLista = prodottoService.getProdotti();
+        if (primaLista.isEmpty()){
+            System.out.println("Lista vuota");
+        } else {
+            System.out.println("Lista piena");
+        }
         prodottoService.addProdotto("Mouse", 30.0f);
         prodottoService.addProdotto("Tastiera", 15.0f);
         prodottoService.addProdotto("Cuffie", 25.0f);
