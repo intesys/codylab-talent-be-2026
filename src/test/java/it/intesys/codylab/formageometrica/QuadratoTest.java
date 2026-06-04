@@ -19,12 +19,12 @@ class QuadratoTest {
     @Test
     void conUnQuadratoDiLato20LareaVale400() {
         // ARRANGE
-        Quadrato quadrato = new Quadrato(5.0F);
+        Quadrato quadrato = new Quadrato(20.0F);
 
         // ACT
         float area = quadrato.area();
 
         // ASSERT
-        //assert (area == 5.0F);
+        assert (area == 400.0F);
     }
 }
