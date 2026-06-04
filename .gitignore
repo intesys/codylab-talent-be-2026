@@ -3,3 +3,4 @@
 .idea
 # Default ignored files
 /out/
+/target/
