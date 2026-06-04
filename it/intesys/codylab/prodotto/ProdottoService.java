@@ -34,10 +34,6 @@ public class ProdottoService {
     }
 
     public boolean deleteProdotto(int id) {
-        Optional<Prodotto> prodottoOpt = getProdottoById(id);
-        if (prodottoOpt.isPresent()) {
-            return prodotti.remove(prodottoOpt.get());
-        }
         return false;
     }
 }

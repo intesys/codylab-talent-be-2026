@@ -15,19 +15,10 @@ public class ProdottiMain {
     public static void catalogoProdotti() {
         System.out.println("Inizio");
         ProdottoService prodottoService = new ProdottoService();
-
-        List<Prodotto> prodotti = prodottoService.getProdotti();
-        if (prodotti.isEmpty()) {
-            System.out.println("La lista prodotti è vuota.");
-        } else {
-            System.out.println("La lista contiene già " + prodotti.size() + " prodotti.");
-        }
-
         prodottoService.addProdotto("Mouse", 30.0f);
         prodottoService.addProdotto("Tastiera", 15.0f);
         prodottoService.addProdotto("Cuffie", 25.0f);
 
-        prodotti = prodottoService.getProdotti();
         System.out.println("Trovati i prodotti:");
         for (Prodotto prodotto : prodotti) {
             System.out.println(prodotto);
@@ -46,7 +37,6 @@ public class ProdottiMain {
         for (Prodotto prodotto : prodotti) {
             System.out.println(prodotto);
         }
-
         Optional<Prodotto> prodottoCancellato = prodottoService.getProdottoById(2);
         if (prodottoCancellato.isPresent()) {
             System.err.println("La cancellazione non è andata a buon fine");
