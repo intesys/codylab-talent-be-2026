@@ -16,14 +16,12 @@ public class ProdottiMain {
         System.out.println("Inizio");
         ProdottoService prodottoService = new ProdottoService();
 
-        // === ESERCIZIO 1: Verifica se la lista inizia vuota ===
-        List<Prodotto> listaIniziale = prodottoService.getProdotti();
-        if (listaIniziale.isEmpty()) {
-            System.out.println("La lista dei prodotti è vuota all'inizio.");
+        List<Prodotto> prodottiIniziali = prodottoService.getProdotti();
+        if (prodottiIniziali.isEmpty()) {
+            System.out.println("Controllo iniziale: La lista è vuota.");
         } else {
-            System.out.println("La lista contiene già dei prodotti.");
+            System.out.println("Controllo iniziale: La lista contiene prodotti.");
         }
-        // ======================================================
 
         prodottoService.addProdotto("Mouse", 30.0f);
         prodottoService.addProdotto("Tastiera", 15.0f);

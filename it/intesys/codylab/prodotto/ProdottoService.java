@@ -40,16 +40,14 @@ public class ProdottoService {
     }
 
     public boolean deleteProdotto(int id) {
-        // 1. Cerco il prodotto tramite il suo ID
-        Optional<Prodotto> prodottoTrovato = getProdottoById(id);
+        // 1. Facciamo una getById per cercare il prodotto
+        Optional<Prodotto> prodottoDaCancellare = getProdottoById(id);
 
-        // 2. Se il prodotto è presente nella lista, lo rimuoviamo
-        if (prodottoTrovato.isPresent()) {
-            Prodotto p = prodottoTrovato.get();
-            return prodotti.remove(p);
+        if (prodottoDaCancellare.isPresent()) {
+            return prodotti.remove(prodottoDaCancellare.get());
         }
 
-        // 3. Se non lo trova, ritorna false
+        // Se non l'abbiamo trovato, non possiamo cancellarlo
         return false;
     }
 }
