@@ -16,14 +16,14 @@ public class ProdottiMain {
         System.out.println("Inizio");
         ProdottoService prodottoService = new ProdottoService();
 
-        //es 1 check per vedere se la lista è vuota, evita i problemi di static
-        List<Prodotto> prodottiIniziali = prodottoService.getProdotti();
-        if (prodottiIniziali.isEmpty()) {
-            System.out.println("Controllo iniziale: La lista è vuota.");
+        // === ESERCIZIO 1: Verifica se la lista inizia vuota ===
+        List<Prodotto> listaIniziale = prodottoService.getProdotti();
+        if (listaIniziale.isEmpty()) {
+            System.out.println("La lista dei prodotti è vuota all'inizio.");
         } else {
-            System.out.println("Controllo iniziale: La lista contiene prodotti.");
+            System.out.println("La lista contiene già dei prodotti.");
         }
-
+        // ======================================================
 
         prodottoService.addProdotto("Mouse", 30.0f);
         prodottoService.addProdotto("Tastiera", 15.0f);
@@ -35,7 +35,6 @@ public class ProdottiMain {
             System.out.println(prodotto);
         }
 
-        //cambia il prodotto 1 da mouse a mouse wireless
         prodottoService.updateProdotto(1, "Mouse wireless", 45.0f);
         prodotti = prodottoService.getProdotti();
         System.out.println("Trovati i prodotti:");
@@ -43,7 +42,6 @@ public class ProdottiMain {
             System.out.println(prodotto);
         }
 
-        //rimuove il secondo prodotto
         prodottoService.deleteProdotto(2);
         prodotti = prodottoService.getProdotti();
         System.out.println("Trovati i prodotti:");
