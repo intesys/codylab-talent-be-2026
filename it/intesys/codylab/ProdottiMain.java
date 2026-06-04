@@ -19,7 +19,6 @@ public class ProdottiMain {
         prodottoService.addProdotto("Tastiera", 15.0f);
         prodottoService.addProdotto("Cuffie", 25.0f);
 
-        List<Prodotto> prodotti = prodottoService.getProdotti();
         System.out.println("Trovati i prodotti:");
         for (Prodotto prodotto : prodotti) {
             System.out.println(prodotto);
@@ -44,6 +43,5 @@ public class ProdottiMain {
         } else {
             System.out.println("Prodotto 2 cancellato correttamente");
         }
-
     }
 }

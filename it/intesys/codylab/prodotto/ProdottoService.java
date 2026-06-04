@@ -10,12 +10,6 @@ public class ProdottoService {
     private int currentProdottoId = 0;
 
     public Optional<Prodotto> getProdottoById(int id) {
-//        for (Prodotto prodotto : prodotti) {
-//            if (prodotto.getId() == id) {
-//                return Optional.of(prodotto);
-//            }
-//        }
-//        return Optional.empty();
         return prodotti.stream().filter(p -> p.getId() == id).findFirst();
     }
 
