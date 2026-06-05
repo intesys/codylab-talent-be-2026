@@ -14,6 +14,8 @@
         <!-- Qua metto le versioni delle dipendenze che voglio usare -->
         <slf4j.version>2.0.18</slf4j.version>
         <logback.version>1.5.34</logback.version>
+        <postgresql.version>42.7.11</postgresql.version>
+        <hikari.version>6.3.0</hikari.version>
     </properties>
     <dependencies>
         <dependency>
@@ -26,6 +28,16 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikari.version}</version>
         </dependency>
 
         <dependency>
