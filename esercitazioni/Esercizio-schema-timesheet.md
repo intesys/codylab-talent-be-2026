@@ -36,7 +36,7 @@ Il database dovrà quindi essere in grado di rispondere a domande come:
 
 ## Entità da modellare
 
-Dovete creare **4 tabelle**.
+Dovete creare **4 tabelle**. Per convenzione, usate nomi in inglese.
 
 ### 1. `clients`
 Rappresenta i clienti dell'azienda.
@@ -64,6 +64,7 @@ Ogni progetto deve avere:
 - una data di fine obbligatoria
 - una data di creazione obbligatoria
 - una data di aggiornamento facoltativa
+- uno stato obbligatorio di tipo enum ['CREATED', 'WORKING', 'STANDBY', 'COMPLETED', 'CLOSED'] con default `CREATED`
 
 ---
 
@@ -93,4 +94,3 @@ Ogni attività deve avere:
 - un riferimento al progetto a cui appartiene
 - una data di creazione obbligatoria
 - una data di aggiornamento facoltativa
-
