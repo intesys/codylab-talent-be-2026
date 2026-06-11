@@ -11,7 +11,9 @@ public class CodyLabApplication {
     static void main() {
         JdbcDemo jdbcDemo = new JdbcDemo();
 //        jdbcDemo.getAllProjects();
+
 //        jdbcDemo.getAllProjectsFromRepository();
+
 //        jdbcDemo.getProjectById(1L);
 
         Project project = new Project()

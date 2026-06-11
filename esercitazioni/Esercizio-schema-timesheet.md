@@ -94,3 +94,10 @@ Ogni attività deve avere:
 - un riferimento al progetto a cui appartiene
 - una data di creazione obbligatoria
 - una data di aggiornamento facoltativa
+
+### 5. Esercizi
+
+-  UPDATE - updateProjectById(long id, Project project)
+-  CRUD - Activity
+-  JOIN - progetti aperti con le relative attività - findAllProjectsWithActivities()
+-  JOIN/COUNT - quanti progetti in stato `WORKING` ci sono per ogni cliente - countProjectsInProgressByClient()
