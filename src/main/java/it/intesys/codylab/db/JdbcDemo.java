@@ -1,12 +1,17 @@
 package it.intesys.codylab.db;
 
 import it.intesys.codylab.db.config.HikariDataSourceProvider;
+import it.intesys.codylab.db.model.Project;
 import it.intesys.codylab.db.repository.ProjectRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 /**
  * Mini-runner per testare JDBC + Hikari sulle tabelle prodotto/libro.
@@ -19,9 +24,9 @@ public class JdbcDemo {
         DataSource dataSource = HikariDataSourceProvider.getDataSource();
 
         try (
-                var connection = dataSource.getConnection();
-                var statement = connection.prepareStatement("SELECT * FROM projects");
-                var rs = statement.executeQuery()
+                Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM projects");
+                ResultSet rs = statement.executeQuery()
         ) {
             while (rs.next()) {
                 logger.info(rs.getString("title"));
@@ -37,6 +42,20 @@ public class JdbcDemo {
         DataSource dataSource = HikariDataSourceProvider.getDataSource();
         ProjectRepository projectRepository = new ProjectRepository(dataSource);
         projectRepository.findAll().forEach(p -> logger.info(p.getTitle()));
+    }
+
+    public void getProjectById(long id) {
+        DataSource dataSource = HikariDataSourceProvider.getDataSource();
+        ProjectRepository projectRepository = new ProjectRepository(dataSource);
+        Optional<Project> project = projectRepository.findById(id);
+        project.ifPresent(p -> logger.info(p.toString()));
+    }
+
+    public void insertProject(Project project) {
+        DataSource dataSource = HikariDataSourceProvider.getDataSource();
+        ProjectRepository projectRepository = new ProjectRepository(dataSource);
+        long id = projectRepository.insert(project);
+        logger.info("Inserted project with id = " + id);
     }
 }
 

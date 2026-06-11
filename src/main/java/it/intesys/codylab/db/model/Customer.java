@@ -2,7 +2,7 @@ package it.intesys.codylab.db.model;
 
 import java.time.LocalDate;
 
-public class Client {
+public class Customer {
 
     private Long id;
     private String name;
@@ -13,7 +13,7 @@ public class Client {
         return id;
     }
 
-    public Client setId(Long id) {
+    public Customer setId(Long id) {
         this.id = id;
         return this;
     }
@@ -22,7 +22,7 @@ public class Client {
         return name;
     }
 
-    public Client setName(String name) {
+    public Customer setName(String name) {
         this.name = name;
         return this;
     }
@@ -31,7 +31,7 @@ public class Client {
         return createDate;
     }
 
-    public Client setCreateDate(LocalDate createDate) {
+    public Customer setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
         return this;
     }
@@ -40,7 +40,7 @@ public class Client {
         return updateDate;
     }
 
-    public Client setUpdateDate(LocalDate updateDate) {
+    public Customer setUpdateDate(LocalDate updateDate) {
         this.updateDate = updateDate;
         return this;
     }

@@ -2,7 +2,7 @@ package it.intesys.codylab.db.model;
 
 import java.time.LocalDate;
 
-public class ProjectModel {
+public class Project {
 
     private Long id;
     private String title;
@@ -18,7 +18,7 @@ public class ProjectModel {
         return id;
     }
 
-    public ProjectModel setId(Long id) {
+    public Project setId(Long id) {
         this.id = id;
         return this;
     }
@@ -27,7 +27,7 @@ public class ProjectModel {
         return title;
     }
 
-    public ProjectModel setTitle(String title) {
+    public Project setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -36,7 +36,7 @@ public class ProjectModel {
         return description;
     }
 
-    public ProjectModel setDescription(String description) {
+    public Project setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -45,7 +45,7 @@ public class ProjectModel {
         return estimatedHours;
     }
 
-    public ProjectModel setEstimatedHours(Integer estimatedHours) {
+    public Project setEstimatedHours(Integer estimatedHours) {
         this.estimatedHours = estimatedHours;
         return this;
     }
@@ -54,7 +54,7 @@ public class ProjectModel {
         return startDate;
     }
 
-    public ProjectModel setStartDate(LocalDate startDate) {
+    public Project setStartDate(LocalDate startDate) {
         this.startDate = startDate;
         return this;
     }
@@ -63,7 +63,7 @@ public class ProjectModel {
         return endDate;
     }
 
-    public ProjectModel setEndDate(LocalDate endDate) {
+    public Project setEndDate(LocalDate endDate) {
         this.endDate = endDate;
         return this;
     }
@@ -72,7 +72,7 @@ public class ProjectModel {
         return status;
     }
 
-    public ProjectModel setStatus(ProjectStatus status) {
+    public Project setStatus(ProjectStatus status) {
         this.status = status;
         return this;
     }
@@ -81,7 +81,7 @@ public class ProjectModel {
         return createDate;
     }
 
-    public ProjectModel setCreateDate(LocalDate createDate) {
+    public Project setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
         return this;
     }
@@ -90,17 +90,23 @@ public class ProjectModel {
         return updateDate;
     }
 
-    public ProjectModel setUpdateDate(LocalDate updateDate) {
+    public Project setUpdateDate(LocalDate updateDate) {
         this.updateDate = updateDate;
         return this;
     }
 
     @Override
     public String toString() {
-        return "ProjectModel{" +
+        return "Project{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", status='" + status + '\'' +
+                ", description='" + description + '\'' +
+                ", estimatedHours=" + estimatedHours +
+                ", status=" + status +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
                 '}';
     }
 }
