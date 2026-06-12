@@ -147,4 +147,39 @@ public class ProjectRepository {
             throw new RuntimeException(e);
         }
     }
+
+    // Metodo update
+    public void updateProjectById(long id, Project project) {
+        String sql = """
+            UPDATE projects
+            SET title = ?,
+                description = ?,
+                estimated_hours = ?,
+                start_date = ?,
+                end_date = ?,
+                create_date = ?,
+                update_date = ?,
+                status = ?
+            WHERE id = ?
+            """;
+        try (
+                var connection = dataSource.getConnection();
+                var statement = connection.prepareStatement(sql)
+        ) {
+            statement.setString(1, project.getTitle());
+            statement.setString(2, project.getDescription());
+            statement.setInt(3, project.getEstimatedHours());
+            statement.setDate(4, Date.valueOf(project.getStartDate()));
+            statement.setDate(5, Date.valueOf(project.getEndDate()));
+            statement.setDate(6, Date.valueOf(project.getCreateDate()));
+            statement.setDate(7, project.getUpdateDate() != null ? Date.valueOf(project.getUpdateDate()) : null);
+            statement.setObject(8, project.getStatus().name(), Types.OTHER);
+            statement.setLong(9, id);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

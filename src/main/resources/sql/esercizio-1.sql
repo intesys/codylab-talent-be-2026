@@ -45,6 +45,16 @@ CREATE TABLE users_activities(
                                  PRIMARY KEY (activity_id, user_id)
 );
 
+CREATE TABLE trackings (
+                           id SERIAL PRIMARY KEY,
+                           description TEXT NOT NULL,
+                           minutes_spent INT NOT NULL,
+                           activity_id INT REFERENCES activities(id) NOT NULL,
+                           user_id INT REFERENCES users(id) NOT NULL,
+                           create_date DATE NOT NULL,
+                           update_date DATE
+);
+
 
 
 
@@ -161,3 +171,10 @@ INSERT INTO users_activities (activity_id, user_id) VALUES
       (16, 4),  -- Sara - Sviluppo dashboard
       (17, 2);  -- Luca - Testing dashboard
 
+
+-- =========================
+-- TRACKINGS
+-- =========================
+INSERT INTO trackings (description, minutes_spent, activity_id, user_id, create_date, update_date) VALUES
+      ('Implementate le API di autenticazione', 90, 2, 1, '2026-06-12', NULL),
+      ('Verificati i casi limite del form di login', 120, 4, 4, '2026-06-12', NULL);

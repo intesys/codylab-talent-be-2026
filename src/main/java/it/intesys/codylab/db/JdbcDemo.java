@@ -57,5 +57,20 @@ public class JdbcDemo {
         long id = projectRepository.insert(project);
         logger.info("Inserted project with id = " + id);
     }
+
+    // Metodo per testare l'aggiornamento di un progetto tramite il suo ID sul repository
+    public void updateProjectById(long id, Project project) {
+        DataSource dataSource = HikariDataSourceProvider.getDataSource();
+        ProjectRepository projectRepository = new ProjectRepository(dataSource);
+        projectRepository.updateProjectById(id, project);
+        logger.info("Updated project with id = " + id);
+    }
+
+
+    public void getAllActivitiesFromRepository() {
+        DataSource dataSource = HikariDataSourceProvider.getDataSource();
+        ActivityRepository activityRepository = new ActivityRepository(dataSource);
+        activityRepository.findAll().forEach(a -> logger.info(a.getName()));
+    }
 }
 

@@ -10,6 +10,9 @@ public class CodyLabApplication {
 
     static void main() {
         JdbcDemo jdbcDemo = new JdbcDemo();
+
+        // Eseguiamo il test per le Activity
+        jdbcDemo.getAllActivitiesFromRepository();
 //        jdbcDemo.getAllProjects();
 
 //        jdbcDemo.getAllProjectsFromRepository();
@@ -24,7 +27,9 @@ public class CodyLabApplication {
                 .setStartDate(LocalDate.now())
                 .setEndDate(LocalDate.now().plusDays(10))
                 .setCreateDate(LocalDate.now())
-                .setUpdateDate(null);
+                .setUpdateDate(LocalDate.now());
         jdbcDemo.insertProject(project);
+
+        jdbcDemo.updateProjectById(1L, project);
     }
 }
