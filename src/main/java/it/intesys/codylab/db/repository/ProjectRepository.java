@@ -63,13 +63,6 @@ public class ProjectRepository {
 
 
 
-
-
-
-
-
-
-
     public Optional<Project> findById(long id) {
 
         String sql = """
@@ -94,13 +87,6 @@ public class ProjectRepository {
             throw new RuntimeException(e);
         }
     }
-
-
-
-
-
-
-
 
 
 
@@ -134,8 +120,8 @@ public class ProjectRepository {
             statement.setInt(3, project.getEstimatedHours());
             statement.setDate(4, Date.valueOf(project.getStartDate()));
             statement.setDate(5, Date.valueOf(project.getEndDate()));
-            statement.setDate(6, Date.valueOf(project.getEndDate()));
-            statement.setDate(7, Date.valueOf(project.getEndDate()));
+            statement.setDate(6, Date.valueOf(project.getCreateDate()));
+            statement.setDate(7, Date.valueOf(project.getUpdateDate()));
             statement.setObject(8, project.getStatus().name(), Types.OTHER);
 
             try (var rs = statement.executeQuery()) {
@@ -147,6 +133,9 @@ public class ProjectRepository {
             throw new RuntimeException(e);
         }
     }
+
+
+
 
     // Metodo update
     public void updateProjectById(long id, Project project) {

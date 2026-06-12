@@ -19,7 +19,7 @@ public class CodyLabApplication {
 
 //        jdbcDemo.getProjectById(1L);
 
-        Project project = new Project()
+/*        Project project = new Project()
                 .setTitle("Prova")
                 .setDescription("Descrizione prova")
                 .setEstimatedHours(100)
@@ -30,6 +30,6 @@ public class CodyLabApplication {
                 .setUpdateDate(LocalDate.now());
         jdbcDemo.insertProject(project);
 
-        jdbcDemo.updateProjectById(1L, project);
+        jdbcDemo.updateProjectById(1L, project); */
     }
 }

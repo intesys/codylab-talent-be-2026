@@ -18,51 +18,13 @@ public class ActivityRepository {
         this.dataSource = dataSource;
     }
 
-    private Activity mapActivity(ResultSet rs) throws SQLException {
-        Date updatedAtSql = rs.getDate("update_date");
+    public List<Activity> findAll() {
 
-        return new Activity()
-                .setId(rs.getLong("id"))
-                .setName(rs.getString("name"))
-                .setEstimatedHours(rs.getInt("estimated_hours"))
-                .setProjectId(rs.getLong("project_id"))
-                .setCreateDate(rs.getDate("create_date").toLocalDate())
-                .setUpdateDate(updatedAtSql != null ? updatedAtSql.toLocalDate() : null);
-    }
-
-    public long insert(Activity activity) {
         String sql = """
-            INSERT INTO activities (name, estimated_hours, project_id, create_date, update_date)
-            VALUES (?, ?, ?, ?, ?)
-            RETURNING id
+            SELECT *
+            FROM activities
             """;
 
-        try (
-                var connection = dataSource.getConnection();
-                var statement = connection.prepareStatement(sql)
-        ) {
-            statement.setString(1, activity.getName());
-            statement.setInt(2, activity.getEstimatedHours());
-            statement.setLong(3, activity.getProjectId());
-            statement.setDate(4, Date.valueOf(activity.getCreateDate()));
-
-            if (activity.getUpdateDate() != null) {
-                statement.setDate(5, Date.valueOf(activity.getUpdateDate()));
-            } else {
-                statement.setNull(5, java.sql.Types.DATE);
-            }
-
-            try (var rs = statement.executeQuery()) {
-                rs.next();
-                return rs.getLong(1);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public List<Activity> findAll() {
-        String sql = "SELECT * FROM activities";
         List<Activity> result = new ArrayList<>();
 
         try (
@@ -79,8 +41,25 @@ public class ActivityRepository {
         return result;
     }
 
+    private Activity mapActivity(ResultSet rs) throws SQLException {
+        Date updatedAtSql = rs.getDate("update_date");
+
+        return new Activity()
+                .setId(rs.getLong("id"))
+                .setName(rs.getString("name"))
+                .setEstimatedHours(rs.getInt("estimated_hours"))
+                .setProjectId(rs.getLong("project_id"))
+                .setCreateDate(rs.getDate("create_date").toLocalDate())
+                .setUpdateDate(updatedAtSql != null ? updatedAtSql.toLocalDate() : null);
+    }
+
     public Optional<Activity> findById(long id) {
-        String sql = "SELECT * FROM activities WHERE id = ?";
+
+        String sql = """
+            SELECT *
+            FROM activities
+            WHERE id = ?
+            """;
 
         try (
                 var connection = dataSource.getConnection();
@@ -99,10 +78,51 @@ public class ActivityRepository {
         }
     }
 
-    public boolean updateActivityById(long id, Activity activity) {
+    public long insert(Activity activity) {
+
+        String sql = """
+        INSERT INTO activities 
+        (
+            name, 
+            estimated_hours, 
+            project_id, 
+            create_date, 
+            update_date
+        )
+        VALUES (?, ?, ?, ?, ?)
+        RETURNING id
+        """;
+
+        try (
+                var connection = dataSource.getConnection();
+                var statement = connection.prepareStatement(sql)
+        ) {
+
+            statement.setString(1, activity.getName());
+            statement.setInt(2, activity.getEstimatedHours());
+            statement.setLong(3, activity.getProjectId());
+            statement.setDate(4, Date.valueOf(activity.getCreateDate()));
+            statement.setDate(5, activity.getUpdateDate() != null ? Date.valueOf(activity.getUpdateDate()) : null);
+
+            try (var rs = statement.executeQuery()) {
+                rs.next();
+                return rs.getLong(1);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Metodo update
+    public void updateActivityById(long id, Activity activity) {
         String sql = """
             UPDATE activities 
-            SET name = ?, estimated_hours = ?, project_id = ?, create_date = ?, update_date = ?
+            SET name = ?, 
+                estimated_hours = ?, 
+                project_id = ?, 
+                create_date = ?, 
+                update_date = ?
             WHERE id = ?
             """;
 
@@ -114,24 +134,21 @@ public class ActivityRepository {
             statement.setInt(2, activity.getEstimatedHours());
             statement.setLong(3, activity.getProjectId());
             statement.setDate(4, Date.valueOf(activity.getCreateDate()));
-
-            if (activity.getUpdateDate() != null) {
-                statement.setDate(5, Date.valueOf(activity.getUpdateDate()));
-            } else {
-                statement.setNull(5, java.sql.Types.DATE);
-            }
+            statement.setDate(5, activity.getUpdateDate() != null ? Date.valueOf(activity.getUpdateDate()) : null);
             statement.setLong(6, id);
 
-            int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0;
-
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public boolean deleteById(long id) {
-        String sql = "DELETE FROM activities WHERE id = ?";
+    public void deleteById(long id) {
+
+        String sql = """
+            DELETE FROM activities 
+            WHERE id = ?
+            """;
 
         try (
                 var connection = dataSource.getConnection();
@@ -139,8 +156,7 @@ public class ActivityRepository {
         ) {
             statement.setLong(1, id);
 
-            int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0;
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

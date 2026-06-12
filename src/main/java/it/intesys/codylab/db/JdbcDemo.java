@@ -3,6 +3,7 @@ package it.intesys.codylab.db;
 import it.intesys.codylab.db.config.HikariDataSourceProvider;
 import it.intesys.codylab.db.model.Project;
 import it.intesys.codylab.db.repository.ProjectRepository;
+import it.intesys.codylab.db.repository.ActivityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
