@@ -12,11 +12,11 @@ public class CodyLabApplication {
         JdbcDemo jdbcDemo = new JdbcDemo();
 //        jdbcDemo.getAllProjects();
 
-//        jdbcDemo.getAllProjectsFromRepository();
+      jdbcDemo.getAllProjectsFromRepository();
 
-//        jdbcDemo.getProjectById(1L);
 
-        Project project = new Project()
+
+        /*Project project = new Project()
                 .setTitle("Prova")
                 .setDescription("Descrizione prova")
                 .setEstimatedHours(100)
@@ -24,7 +24,32 @@ public class CodyLabApplication {
                 .setStartDate(LocalDate.now())
                 .setEndDate(LocalDate.now().plusDays(10))
                 .setCreateDate(LocalDate.now())
-                .setUpdateDate(null);
-        jdbcDemo.insertProject(project);
+                .setUpdateDate(null);*/
+
+        Project project = jdbcDemo.getProjectById(1L);
+        project.setTitle("Nuovo Titolo Funzionante")
+                .setDescription("Ho modificato il database con successo!")
+                .setEstimatedHours(250)
+                .setStatus(ProjectStatus.CREATED)
+                .setStartDate(LocalDate.now())
+                .setEndDate(LocalDate.now().plusDays(5))
+                .setUpdateDate(LocalDate.now());
+
+        jdbcDemo.updateProjectById(project, 1L);
+
+        /*Project activity = new Project()
+                .setTitle("Prova")
+                .setDescription("Descrizione prova modificata")
+                .setEstimatedHours(100)
+                .setStatus(ProjectStatus.CREATED)
+                .setStartDate(LocalDate.now())
+                .setEndDate(LocalDate.now().plusDays(10))
+                .setCreateDate(LocalDate.now())
+                .setUpdateDate(null);*/
+
+
+        //jdbcDemo.insertProject(project);
+        //jdbcDemo.updateProjectById(project);
+        //jdbcDemo.updateProjectById(activity);
     }
 }

@@ -1,5 +1,6 @@
 package it.intesys.codylab.db.repository;
 
+import it.intesys.codylab.db.model.Activity;
 import it.intesys.codylab.db.model.Project;
 import it.intesys.codylab.db.model.ProjectStatus;
 
@@ -12,22 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProjectRepository {
+public class ActivitiesRepository {
 
     private final DataSource dataSource;
 
-    public ProjectRepository(DataSource dataSource) {
+    public ActivitiesRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public List<Project> findAll() {
+    public List<Activity> findAll() {
 
         String sql = """
             SELECT *
-            FROM projects
+            FROM activities
             """;
 
-        List<Project> result = new ArrayList<>();
+        List<Activity> result = new ArrayList<>();
 
         try (
                 var connection = dataSource.getConnection();
@@ -35,7 +36,7 @@ public class ProjectRepository {
                 var rs = statement.executeQuery()
         ) {
             while (rs.next()) {
-                result.add(mapProject(rs));
+                result.add(mapActivity(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -43,17 +44,13 @@ public class ProjectRepository {
         return result;
     }
 
-    private Project mapProject(ResultSet rs) throws SQLException {
+    private Activity mapActivity(ResultSet rs) throws SQLException {
         Date updatedAtSql = rs.getDate("update_date");
 
-        return new Project()
+        return new Activity()
                 .setId(rs.getLong("id"))
-                .setTitle(rs.getString("title"))
-                .setDescription(rs.getString("description"))
+                .setName(rs.getString("name"))
                 .setEstimatedHours(rs.getInt("estimated_hours"))
-                .setStatus(ProjectStatus.valueOf(rs.getString("status")))
-                .setStartDate(rs.getDate("start_date").toLocalDate())
-                .setEndDate(rs.getDate("end_date").toLocalDate())
                 .setCreateDate(rs.getDate("create_date").toLocalDate())
                 .setUpdateDate(updatedAtSql != null ? updatedAtSql.toLocalDate() : null);
     }
@@ -70,11 +67,11 @@ public class ProjectRepository {
 
 
 
-    public Optional<Project> findById(long id) {
+    public Optional<Activity> findById(long id) {
 
         String sql = """
             SELECT *
-            FROM projects
+            FROM activities
             WHERE id = ?
             """;
 
@@ -86,7 +83,7 @@ public class ProjectRepository {
 
             try (var rs = statement.executeQuery()) {
                 if (rs.next()) {
-                    return Optional.of(mapProject(rs));
+                    return Optional.of(mapActivity(rs));
                 }
                 return Optional.empty();
             }
@@ -106,21 +103,17 @@ public class ProjectRepository {
 
 
 
-    public long insert(Project project) {
+    public long insert(Activity activity) {
 
         String sql = """
-        INSERT INTO projects
+        INSERT INTO activities
         (
-            title,
-            description,
+            name,
             estimated_hours,
-            start_date,
-            end_date,
             create_date,
-            update_date,
-            status
+            update_date
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?)
         RETURNING id
         """;
 
@@ -129,14 +122,10 @@ public class ProjectRepository {
                 var statement = connection.prepareStatement(sql)
         ) {
 
-            statement.setString(1, project.getTitle());
-            statement.setString(2, project.getDescription());
-            statement.setInt(3, project.getEstimatedHours());
-            statement.setDate(4, Date.valueOf(project.getStartDate()));
-            statement.setDate(5, Date.valueOf(project.getEndDate()));
-            statement.setDate(6, Date.valueOf(project.getEndDate()));
-            statement.setDate(7, Date.valueOf(project.getEndDate()));
-            statement.setObject(8, project.getStatus().name(), Types.OTHER);
+            statement.setString(1, activity.getName());
+            statement.setInt(3, activity.getEstimatedHours());
+            statement.setDate(4, Date.valueOf(activity.getCreateDate()));
+            statement.setDate(5, Date.valueOf(activity.getUpdateDate()));
 
             try (var rs = statement.executeQuery()) {
                 rs.next();
@@ -151,18 +140,13 @@ public class ProjectRepository {
 
 
 
-    public long update(Project project) {
+    public long update(Activity activity) {
 
         String sql = """
-        update projects
-            set title = ?,
-            description = ?,
-            estimated_hours = ?,
-            start_date = ?,
-            end_date = ?,
-            create_date = ?,
-            update_date = ?,
-            status = ?
+        update activities
+            set name = ?,
+                estimated_hours = ?,
+                update_date = ?
         where id = ?
         returning id;
         """;
@@ -172,16 +156,11 @@ public class ProjectRepository {
                 var statement = connection.prepareStatement(sql)
         ) {
 
-            statement.setString(1, project.getTitle());
-            statement.setString(2, project.getDescription());
-            statement.setInt(3, project.getEstimatedHours());
-
-            statement.setObject(4, project.getStartDate());
-            statement.setObject(5, project.getEndDate());
-            statement.setObject(6, project.getCreateDate());
-            statement.setObject(7, project.getUpdateDate());
-            statement.setObject(8, project.getStatus().name(), Types.OTHER);
-            statement.setLong(9, project.getId());
+            statement.setString(1, activity.getName());
+            statement.setInt(2, activity.getEstimatedHours());
+            statement.setObject(3, activity.getCreateDate());
+            statement.setObject(4, activity.getUpdateDate());
+            statement.setLong(5, activity.getId());
 
             try (var rs = statement.executeQuery()) {
                 rs.next();

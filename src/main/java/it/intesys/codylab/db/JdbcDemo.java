@@ -44,11 +44,12 @@ public class JdbcDemo {
         projectRepository.findAll().forEach(p -> logger.info(p.getTitle()));
     }
 
-    public void getProjectById(long id) {
+    public  Project getProjectById(long id) {
         DataSource dataSource = HikariDataSourceProvider.getDataSource();
         ProjectRepository projectRepository = new ProjectRepository(dataSource);
         Optional<Project> project = projectRepository.findById(id);
         project.ifPresent(p -> logger.info(p.toString()));
+        return project.get();
     }
 
     public void insertProject(Project project) {
@@ -57,5 +58,35 @@ public class JdbcDemo {
         long id = projectRepository.insert(project);
         logger.info("Inserted project with id = " + id);
     }
+
+
+    public void updateProjectById(Project project, long id) {
+
+        DataSource dataSource = HikariDataSourceProvider.getDataSource();
+        ProjectRepository projectRepository = new ProjectRepository(dataSource);
+
+        Project projectToUpdate = getProjectById(id);
+
+        projectToUpdate.setTitle(project.getTitle());
+        projectToUpdate.setDescription(project.getDescription());
+        projectToUpdate.setEstimatedHours(project.getEstimatedHours());
+        projectToUpdate.setStatus(project.getStatus());
+        projectToUpdate.setStartDate(project.getStartDate());
+        projectToUpdate.setEndDate(project.getEndDate());
+        projectToUpdate.setUpdateDate(project.getUpdateDate());
+
+        long updatedId = projectRepository.update(projectToUpdate);
+        logger.info("Updated project with id = " + id);
+    }
 }
+
+
+
+
+
+
+
+
+
+
 
