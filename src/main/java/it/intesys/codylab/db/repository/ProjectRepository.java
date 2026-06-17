@@ -175,13 +175,11 @@ public class ProjectRepository {
 //            statement.setDate(4, Date.valueOf(project.getStartDate()));
 //            statement.setDate(5, Date.valueOf(project.getEndDate()));
 //
-//            // Impostiamo la data di aggiornamento a "oggi" senza controlli condizionali
 //            statement.setDate(6, Date.valueOf(LocalDate.now()));
 //
 //            statement.setObject(7, project.getStatus().name(), Types.OTHER);
 //            statement.setLong(8, id);
 //
-//            // Eseguiamo update (restituisce il numero di righe modificate)
 //            statement.executeUpdate();
 //
 //        } catch (SQLException e) {
