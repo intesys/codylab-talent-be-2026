@@ -149,6 +149,8 @@ public class ProjectRepository {
         }
     }
 
+    public long update(long id, Project project) {
+    }
 
 
 //
@@ -172,16 +174,17 @@ public class ProjectRepository {
 //            statement.setString(1, project.getTitle());
 //            statement.setString(2, project.getDescription());
 //            statement.setInt(3, project.getEstimatedHours());
-//            statement.setDate(4, Date.valueOf(project.getStartDate()));
-//            statement.setDate(5, Date.valueOf(project.getEndDate()));
+//            statement.setObject(4, project.getStartDate());
+//            statement.setObject(5, project.getEndDate());
+//            statement.setObject(6, project.getCreateDate());
+//            statement.setObject(7, project.getUpdateDate());
+//            statement.setObject(8, project.getStatus().name(), Types.OTHER);
+//            statement.setLong(9, project.getId());
 //
-//            statement.setDate(6, Date.valueOf(LocalDate.now()));
-//
-//            statement.setObject(7, project.getStatus().name(), Types.OTHER);
-//            statement.setLong(8, id);
-//
-//            statement.executeUpdate();
-//
+//                try (var rs = statement.executeQuery()) {
+//                    rs.next(); 
+//                    return rs.getLong(1);
+//                }  
 //        } catch (SQLException e) {
 //            throw new RuntimeException(e);
 //        }

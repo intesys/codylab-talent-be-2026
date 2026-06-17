@@ -34,6 +34,6 @@ public class CodyLabApplication {
 //                .setStartDate(LocalDate.now())
 //                .setEndDate(LocalDate.now().plusDays(10));
 //        jdbcDemo.insertProject(project);
-//        jdbcDemo.updateProjectById(1L, projectModificato);
+//        jdbcDemo.updateProjectById(project, 1L);
     }
 }
