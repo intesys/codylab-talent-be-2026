@@ -161,3 +161,12 @@ INSERT INTO users_activities (activity_id, user_id) VALUES
       (16, 4),  -- Sara - Sviluppo dashboard
       (17, 2);  -- Luca - Testing dashboard
 
+CREATE TABLE trackings (
+                           id SERIAL PRIMARY KEY,
+                           description TEXT NOT NULL,
+                           duration_minutes INT NOT NULL,
+                           activity_id INT REFERENCES activities(id) NOT NULL,
+                           user_id INT REFERENCES users(id) NOT NULL,
+                           create_date DATE NOT NULL,
+                           update_date DATE
+);
