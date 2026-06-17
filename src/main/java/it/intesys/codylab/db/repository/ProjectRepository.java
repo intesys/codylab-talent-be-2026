@@ -21,7 +21,6 @@ public class ProjectRepository {
     }
 
     public List<Project> findAll() {
-
         String sql = """
             SELECT *
             FROM projects
@@ -59,7 +58,6 @@ public class ProjectRepository {
     }
 
     public Optional<Project> findById(long id) {
-
         String sql = """
             SELECT *
             FROM projects
@@ -84,7 +82,6 @@ public class ProjectRepository {
     }
 
     public long insert(Project project) {
-
         String sql = """
         INSERT INTO projects
         (
@@ -105,21 +102,19 @@ public class ProjectRepository {
                 var connection = dataSource.getConnection();
                 var statement = connection.prepareStatement(sql)
         ) {
-
             statement.setString(1, project.getTitle());
             statement.setString(2, project.getDescription());
             statement.setInt(3, project.getEstimatedHours());
             statement.setDate(4, Date.valueOf(project.getStartDate()));
             statement.setDate(5, Date.valueOf(project.getEndDate()));
-            statement.setDate(6, Date.valueOf(project.getEndDate()));
-            statement.setDate(7, Date.valueOf(project.getEndDate()));
+            statement.setDate(6, Date.valueOf(project.getCreateDate()));
+            statement.setDate(7, project.getUpdateDate() != null ? Date.valueOf(project.getUpdateDate()) : null);
             statement.setObject(8, project.getStatus().name(), Types.OTHER);
 
             try (var rs = statement.executeQuery()) {
                 rs.next();
                 return rs.getLong(1);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -175,6 +170,60 @@ public class ProjectRepository {
             statement.setLong(8, id);
 
             statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // ==========================================
+    // EXERCISE 3: JOIN - Find open projects with their activities
+    // ==========================================
+    public List<Project> findAllProjectsWithActivities() {
+        // Query retrieving projects that are not CLOSED or COMPLETED using a JOIN
+        String sql = """
+            SELECT p.* FROM projects p
+            JOIN activities a ON p.id = a.project_id
+            WHERE p.status NOT IN ('COMPLETED', 'CLOSED')
+            """;
+
+        List<Project> result = new ArrayList<>();
+
+        try (
+                var connection = dataSource.getConnection();
+                var statement = connection.prepareStatement(sql);
+                var rs = statement.executeQuery()
+        ) {
+            while (rs.next()) {
+                result.add(mapProject(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    // ==========================================
+    // EXERCISE 4: JOIN/COUNT - Active projects per client
+    // ==========================================
+    public void countProjectsInProgressByClient() {
+        // Query grouping active projects by client name and counting them
+        String sql = """
+            SELECT c.name, COUNT(p.id) AS active_projects_count
+            FROM customers c
+            LEFT JOIN projects p ON c.id = p.customer_id AND p.status = 'WORKING'
+            GROUP BY c.name
+            """;
+
+        try (
+                var connection = dataSource.getConnection();
+                var statement = connection.prepareStatement(sql);
+                var rs = statement.executeQuery()
+        ) {
+            while (rs.next()) {
+                String clientName = rs.getString("name");
+                int count = rs.getInt("active_projects_count");
+                System.out.println("Client: " + clientName + " | Active Projects: " + count);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
