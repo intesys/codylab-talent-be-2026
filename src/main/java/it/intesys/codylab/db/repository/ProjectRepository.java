@@ -58,18 +58,6 @@ public class ProjectRepository {
                 .setUpdateDate(updatedAtSql != null ? updatedAtSql.toLocalDate() : null);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     public Optional<Project> findById(long id) {
 
         String sql = """
@@ -94,17 +82,6 @@ public class ProjectRepository {
             throw new RuntimeException(e);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
     public long insert(Project project) {
 
@@ -143,6 +120,61 @@ public class ProjectRepository {
                 return rs.getLong(1);
             }
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateProjectById(long id, Project project) {
+        String sql = """
+            UPDATE projects
+            SET title = ?,
+                description = ?,
+                estimated_hours = ?,
+                start_date = ?,
+                end_date = ?,
+                update_date = ?,
+                status = ?
+            WHERE id = ?
+            """;
+
+        try (
+                var connection = dataSource.getConnection();
+                var statement = connection.prepareStatement(sql)
+        ) {
+            // 1. Title (Required)
+            statement.setString(1, project.getTitle());
+
+            // 2. Description (Optional - Handling potential Nulls)
+            if (project.getDescription() != null) {
+                statement.setString(2, project.getDescription());
+            } else {
+                statement.setNull(2, Types.VARCHAR);
+            }
+
+            // 3. Estimated Hours (Required)
+            statement.setInt(3, project.getEstimatedHours());
+
+            // 4. Start Date (Required)
+            statement.setDate(4, Date.valueOf(project.getStartDate()));
+
+            // 5. End Date (Required)
+            statement.setDate(5, Date.valueOf(project.getEndDate()));
+
+            // 6. Update Date (Optional - Handling potential Nulls)
+            if (project.getUpdateDate() != null) {
+                statement.setDate(6, Date.valueOf(project.getUpdateDate()));
+            } else {
+                statement.setNull(6, Types.DATE);
+            }
+
+            // 7. Status (Required - Mapped as Postgres custom type)
+            statement.setObject(7, project.getStatus().name(), Types.OTHER);
+
+            // 8. ID for the WHERE clause
+            statement.setLong(8, id);
+
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
