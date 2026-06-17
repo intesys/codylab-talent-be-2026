@@ -57,5 +57,13 @@ public class JdbcDemo {
         long id = projectRepository.insert(project);
         logger.info("Inserted project with id = " + id);
     }
+
+    public void updateProjectById(long id, Project project) {
+        DataSource dataSource = HikariDataSourceProvider.getDataSource();
+        ProjectRepository projectRepository = new ProjectRepository(dataSource);
+
+        // si va a chiamare il metodo del repository appena lo creato
+        projectRepository.update(id, project);
+    }
 }
 

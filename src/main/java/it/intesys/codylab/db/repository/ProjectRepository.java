@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -147,4 +148,45 @@ public class ProjectRepository {
             throw new RuntimeException(e);
         }
     }
+
+
+
+//
+//    public void update(long id, Project project) {
+//        String sql = """
+//        UPDATE projects
+//        SET title = ?,
+//            description = ?,
+//            estimated_hours = ?,
+//            start_date = ?,
+//            end_date = ?,
+//            update_date = ?,
+//            status = ?
+//        WHERE id = ?
+//        """;
+//
+//        try (
+//                var connection = dataSource.getConnection();
+//                var statement = connection.prepareStatement(sql)
+//        ) {
+//            statement.setString(1, project.getTitle());
+//            statement.setString(2, project.getDescription());
+//            statement.setInt(3, project.getEstimatedHours());
+//            statement.setDate(4, Date.valueOf(project.getStartDate()));
+//            statement.setDate(5, Date.valueOf(project.getEndDate()));
+//
+//            // Impostiamo la data di aggiornamento a "oggi" senza controlli condizionali
+//            statement.setDate(6, Date.valueOf(LocalDate.now()));
+//
+//            statement.setObject(7, project.getStatus().name(), Types.OTHER);
+//            statement.setLong(8, id);
+//
+//            // Eseguiamo update (restituisce il numero di righe modificate)
+//            statement.executeUpdate();
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }
+

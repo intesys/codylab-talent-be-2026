@@ -128,6 +128,8 @@ INSERT INTO activities (
       ('Sviluppo dashboard',        110, 5, '2026-06-01', NULL),
       ('Testing dashboard',          40, 5, '2026-06-01', NULL);
 
+
+
 -- =========================
 -- USERS_ACTIVITIES
 -- =========================
@@ -161,3 +163,29 @@ INSERT INTO users_activities (activity_id, user_id) VALUES
       (16, 4),  -- Sara - Sviluppo dashboard
       (17, 2);  -- Luca - Testing dashboard
 
+
+
+
+
+CREATE TABLE tracking (
+    id SERIAL PRIMARY KEY ,
+    description VARCHAR(255) NOT NULL ,
+    spent_minutes INT NOT NULL ,
+    activity_id INT NOT NULL REFERENCES activities(id) ,
+    user_id INT NOT NULL REFERENCES users(id) ,
+    create_date DATE NOT NULL  ,
+    update_date DATE
+);
+
+
+-- =========================
+-- TRACKING
+-- =========================
+INSERT INTO tracking (
+                      description, spent_minutes, activity_id, user_id, create_date, update_date)
+VALUES
+    ('Ottimizzate query di lettura progetti', 120, 2, 1, '2026-06-06', NULL),
+    ('Verificati i casi limite del form di login', 120, 4, 5, '2026-06-08', NULL),
+    ('Eseguiti test funzionali sul modulo CRM', 180, 4, 4, '2026-06-08', NULL),
+    ('Revisione del codice backend insieme a Mario', 60, 2, 2, '2026-06-06', NULL),
+    ('Creazione dei componenti grafici per la dashboard del CRM', 240, 3, 3, '2026-06-07', NULL);
