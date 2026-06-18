@@ -51,8 +51,7 @@ public class CodyLabApplication {
         //jdbcDemo.updateProjectById(activity);
         jdbcDemo.getAllActivies();
 //        jdbcDemo.findAllActivitiesWorkingProjects();
-        jdbcDemo.countProjectsInProgressByClient(1L);
-
-//        Project project = jdbcDemo.CustomerProjects();
+//        jdbcDemo.countProjectsInProgressByClient(2L);
+        jdbcDemo.CustomerProjects();
     }
 }
