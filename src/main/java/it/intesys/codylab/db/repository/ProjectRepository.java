@@ -203,7 +203,7 @@ public class ProjectRepository {
         Map<String, Integer> result = new HashMap<>();
         try (
                 var connection = dataSource.getConnection();
-                var statement = connection.prepareStatement(sql) // 1. Prepariamo lo statement (senza lanciare la query)
+                var statement = connection.prepareStatement(sql)
         ) {
             statement.setLong(1, id);
 
