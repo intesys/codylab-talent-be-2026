@@ -13,7 +13,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -101,6 +103,26 @@ public class JdbcDemo {
 
         lista.stream().forEach(e -> logger.info(e.toString()));
 
+    }
+
+    public void countProjectsInProgressByClient(){
+        DataSource dataSource = HikariDataSourceProvider.getDataSource();
+        ProjectRepository projectRepository = new ProjectRepository(dataSource);
+
+        Map<String, Integer> result = projectRepository.countProjectsInProgressByClient();
+        result.forEach((name, count) ->
+                logger.info("Cliente: " + name + " - Working: " + count)
+        );
+    }
+
+    public void CustomerProjects(){
+        DataSource dataSource = HikariDataSourceProvider.getDataSource();
+        ProjectRepository projectRepository = new ProjectRepository(dataSource);
+
+        Map<String, Integer> result = projectRepository.CustomerProjects();
+        result.forEach((name, count) ->
+                logger.info("Cliente: " + name + " ha: " + count + "progetti")
+        );
     }
 }
 

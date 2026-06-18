@@ -8,9 +8,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ProjectRepository {
 
@@ -191,6 +189,60 @@ public class ProjectRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Map<String, Integer> countProjectsInProgressByClient(){
+        String sql = """
+                SELECT c.name,count(p.id) as count
+                FROM projects AS p
+                join customers AS c on c.id = p.customer_id
+                where p.status = 'WORKING' group by c.name
+                """;
+
+        Map<String, Integer> result = new HashMap<>();
+        try (
+                var connection = dataSource.getConnection();
+                var statement = connection.prepareStatement(sql);
+                var rs = statement.executeQuery()
+        ) {
+            while (rs.next()) {
+                result.put(
+                        rs.getString("name"),
+                        rs.getInt("count")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+
+    }
+
+    public Map<String, Integer> CustomerProjects(){
+        String sql = """
+                SELECT c.name,count(p.id) as count
+                FROM projects AS p
+                join customers AS c on c.id = p.customer_id
+                group by c.name
+                """;
+
+        Map<String, Integer> result = new HashMap<>();
+        try (
+                var connection = dataSource.getConnection();
+                var statement = connection.prepareStatement(sql);
+                var rs = statement.executeQuery()
+        ) {
+            while (rs.next()) {
+                result.put(
+                        rs.getString("name"),
+                        rs.getInt("count")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+
     }
 
 
