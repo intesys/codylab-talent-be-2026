@@ -52,17 +52,9 @@ public class ActivitiesRepository {
                 .setName(rs.getString("name"))
                 .setEstimatedHours(rs.getInt("estimated_hours"))
                 .setCreateDate(rs.getDate("create_date").toLocalDate())
-                .setUpdateDate(updatedAtSql != null ? updatedAtSql.toLocalDate() : null);
+                .setUpdateDate(updatedAtSql != null ? updatedAtSql.toLocalDate() : null)
+                .setProjectId(rs.getLong("project_id"));
     }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -91,15 +83,6 @@ public class ActivitiesRepository {
             throw new RuntimeException(e);
         }
     }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -172,7 +155,30 @@ public class ActivitiesRepository {
         }
     }
 
+    public List<Activity> findAllActivitiesWorkingProjects() {
 
+        String sql = """
+                SELECT *
+                FROM activities AS a
+                JOIN projects AS p ON p.id = a.project_id
+                WHERE p.status = 'WORKING'
+                """;
+
+        List<Activity> result = new ArrayList<>();
+
+        try (
+                var connection = dataSource.getConnection();
+                var statement = connection.prepareStatement(sql);
+                var rs = statement.executeQuery()
+        ) {
+            while (rs.next()) {
+                result.add(mapActivity(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
 
 
 

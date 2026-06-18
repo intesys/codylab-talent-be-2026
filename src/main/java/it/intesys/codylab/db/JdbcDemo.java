@@ -92,6 +92,16 @@ public class JdbcDemo {
         lista.stream().forEach(e -> logger.info(e.toString()));
 
     }
+
+    public void findAllActivitiesWorkingProjects() {
+        DataSource dataSource = HikariDataSourceProvider.getDataSource();
+        ActivitiesRepository activitiesRepository = new ActivitiesRepository(dataSource);
+
+        List<Activity> lista = activitiesRepository.findAllActivitiesWorkingProjects();
+
+        lista.stream().forEach(e -> logger.info(e.toString()));
+
+    }
 }
 
 

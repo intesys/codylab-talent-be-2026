@@ -13,7 +13,7 @@ public class CodyLabApplication {
         JdbcDemo jdbcDemo = new JdbcDemo();
 //        jdbcDemo.getAllProjects();
 
-      jdbcDemo.getAllProjectsFromRepository();
+//      jdbcDemo.getAllProjectsFromRepository();
 
 
 
@@ -49,6 +49,7 @@ public class CodyLabApplication {
         //jdbcDemo.insertProject(project);
         //jdbcDemo.updateProjectById(project);
         //jdbcDemo.updateProjectById(activity);
-        jdbcDemo.getAllActivies();
+//        jdbcDemo.getAllActivies();
+        jdbcDemo.findAllActivitiesWorkingProjects();
     }
 }
