@@ -191,31 +191,34 @@ public class ProjectRepository {
         }
     }
 
-    public Map<String, Integer> countProjectsInProgressByClient(){
+    public Map<String, Integer> countProjectsInProgressByClient(long id) {
         String sql = """
-                SELECT c.name,count(p.id) as count
-                FROM projects AS p
-                join customers AS c on c.id = p.customer_id
-                where p.status = 'WORKING' group by c.name
-                """;
+            SELECT c.name, COUNT(p.id) AS count
+            FROM customers AS c
+            LEFT JOIN projects AS p ON c.id = p.customer_id AND p.status = 'WORKING'
+            WHERE c.id = ?
+            GROUP BY c.name
+            """;
 
         Map<String, Integer> result = new HashMap<>();
         try (
                 var connection = dataSource.getConnection();
-                var statement = connection.prepareStatement(sql);
-                var rs = statement.executeQuery()
+                var statement = connection.prepareStatement(sql) // 1. Prepariamo lo statement (senza lanciare la query)
         ) {
-            while (rs.next()) {
-                result.put(
-                        rs.getString("name"),
-                        rs.getInt("count")
-                );
+            statement.setLong(1, id);
+
+            try (var rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    result.put(
+                            rs.getString("name"),
+                            rs.getInt("count")
+                    );
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return result;
-
     }
 
     public Map<String, Integer> CustomerProjects(){

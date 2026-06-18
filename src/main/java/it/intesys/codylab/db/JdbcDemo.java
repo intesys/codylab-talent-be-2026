@@ -105,11 +105,11 @@ public class JdbcDemo {
 
     }
 
-    public void countProjectsInProgressByClient(){
+    public void countProjectsInProgressByClient(long id){
         DataSource dataSource = HikariDataSourceProvider.getDataSource();
         ProjectRepository projectRepository = new ProjectRepository(dataSource);
 
-        Map<String, Integer> result = projectRepository.countProjectsInProgressByClient();
+        Map<String, Integer> result = projectRepository.countProjectsInProgressByClient(id);
         result.forEach((name, count) ->
                 logger.info("Cliente: " + name + " - Working: " + count)
         );

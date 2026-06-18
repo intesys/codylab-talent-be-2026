@@ -49,9 +49,10 @@ public class CodyLabApplication {
         //jdbcDemo.insertProject(project);
         //jdbcDemo.updateProjectById(project);
         //jdbcDemo.updateProjectById(activity);
-//        jdbcDemo.getAllActivies();
+        jdbcDemo.getAllActivies();
 //        jdbcDemo.findAllActivitiesWorkingProjects();
-//        jdbcDemo.countProjectsInProgressByClient();
-        jdbcDemo.CustomerProjects();
+        jdbcDemo.countProjectsInProgressByClient(1L);
+
+//        Project project = jdbcDemo.CustomerProjects();
     }
 }
