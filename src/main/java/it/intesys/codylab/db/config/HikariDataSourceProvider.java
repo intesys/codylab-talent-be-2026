@@ -1,4 +1,4 @@
-package it.intesys.codylab.db;
+package it.intesys.codylab.db.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

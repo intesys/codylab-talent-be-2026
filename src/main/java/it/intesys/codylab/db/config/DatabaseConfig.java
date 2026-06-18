@@ -1,4 +1,4 @@
-package it.intesys.codylab.db;
+package it.intesys.codylab.db.config;
 
 /**
  * Configurazione DB letta da variabili ambiente con fallback di default.
