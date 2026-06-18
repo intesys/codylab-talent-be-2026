@@ -1,7 +1,9 @@
 package it.intesys.codylab.db;
 
 import it.intesys.codylab.db.config.HikariDataSourceProvider;
+import it.intesys.codylab.db.model.Activity;
 import it.intesys.codylab.db.model.Project;
+import it.intesys.codylab.db.repository.ActivitiesRepository;
 import it.intesys.codylab.db.repository.ProjectRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -49,7 +52,8 @@ public class JdbcDemo {
         ProjectRepository projectRepository = new ProjectRepository(dataSource);
         Optional<Project> project = projectRepository.findById(id);
         project.ifPresent(p -> logger.info(p.toString()));
-        return project.get();
+        return project.orElse(null);
+
     }
 
     public void insertProject(Project project) {
@@ -77,6 +81,16 @@ public class JdbcDemo {
 
         long updatedId = projectRepository.update(projectToUpdate);
         logger.info("Updated project with id = " + id);
+    }
+
+    public void getAllActivies() {
+        DataSource dataSource = HikariDataSourceProvider.getDataSource();
+        ActivitiesRepository activitiesRepository = new ActivitiesRepository(dataSource);
+
+        List<Activity> lista = activitiesRepository.findAll();
+
+        lista.stream().forEach(e -> logger.info(e.toString()));
+
     }
 }
 

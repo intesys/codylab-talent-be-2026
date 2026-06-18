@@ -49,13 +49,11 @@ CREATE TABLE users_activities(
 create TABLE trackings(
     id SERIAL primary key,
     description text not null,
-    mintesSpent interval,
-    fk_activities int,
-    fk_users int,
+    mintesSpent int,
     create_date date not null,
     update_date date,
-    fk_users INT REFERENCES users(id),
-    fk_activities INT REFERENCES activities(id)
+    fk_users int REFERENCES users(id),
+    fk_activities int REFERENCES activities(id)
 );
 
 
