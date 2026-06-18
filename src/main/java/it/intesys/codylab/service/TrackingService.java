@@ -16,19 +16,26 @@ import java.util.Optional;
 
 public class TrackingService {
 
+    private final TrackingRepository trackingRepository;
+    private final ActivityRepository activityRepository;
+    private final ProjectRepository projectRepository;
+
+    public TrackingService(TrackingRepository trackingRepository, ActivityRepository activityRepository, ProjectRepository projectRepository) {
+        this.trackingRepository = trackingRepository;
+        this.activityRepository = activityRepository;
+        this.projectRepository = projectRepository;
+    }
+
     public void insertTrack(Tracking tracking) {
-        DataSource dataSource = HikariDataSourceProvider.getDataSource();
 
         //controllo se il progetto è attivo
         long activityId = tracking.getActivityId();
-        ActivityRepository activityRepository = new ActivityRepository(dataSource);
         Optional<Activity> activityOptional = activityRepository.findById(activityId);
         if (activityOptional.isEmpty()) {
             throw new IllegalArgumentException("Activity not found");
         }
         Activity activity = activityOptional.get();
         long projectId = activity.getProjectId();
-        ProjectRepository projectRepository = new ProjectRepository(dataSource);
         Optional<Project> projectOptional = projectRepository.findById(projectId);
         if (projectOptional.isEmpty()) {
             throw new IllegalArgumentException("Project not found");
@@ -38,7 +45,6 @@ public class TrackingService {
             throw new IllegalArgumentException("Project is already closed");
         }
 
-        TrackingRepository trackingRepository = new TrackingRepository(dataSource);
         trackingRepository.insert(tracking);
     }
 }
