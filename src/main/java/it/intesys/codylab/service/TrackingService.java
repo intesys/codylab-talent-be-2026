@@ -1,7 +1,5 @@
 package it.intesys.codylab.service;
 
-import com.zaxxer.hikari.HikariDataSource;
-import it.intesys.codylab.db.config.HikariDataSourceProvider;
 import it.intesys.codylab.db.model.Activity;
 import it.intesys.codylab.db.model.Project;
 import it.intesys.codylab.db.model.ProjectStatus;
@@ -10,7 +8,6 @@ import it.intesys.codylab.db.repository.ActivityRepository;
 import it.intesys.codylab.db.repository.ProjectRepository;
 import it.intesys.codylab.db.repository.TrackingRepository;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 

@@ -2,10 +2,7 @@ package it.intesys.codylab.db.repository;
 
 import it.intesys.codylab.db.model.Tracking;
 import javax.sql.DataSource;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -71,12 +68,11 @@ public class TrackingRepository {
         String sql = """
             INSERT INTO trackings (description, duration_minutes, activity_id, user_id, create_date, update_date)
             VALUES (?, ?, ?, ?, ?, ?)
-            RETURNING id
             """;
 
         try (
                 var connection = dataSource.getConnection();
-                var statement = connection.prepareStatement(sql)
+                var statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
             statement.setString(1, tracking.getDescription());
             statement.setInt(2, tracking.getDurationMinutes());
@@ -90,7 +86,9 @@ public class TrackingRepository {
                 statement.setNull(6, Types.DATE);
             }
 
-            try (var rs = statement.executeQuery()) {
+            statement.executeUpdate();
+
+            try (var rs = statement.getGeneratedKeys()) {
                 rs.next();
                 return rs.getLong(1);
             }
