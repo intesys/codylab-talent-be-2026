@@ -1,8 +1,6 @@
 package it.intesys.codylab.controller;
 
-import it.intesys.codylab.db.config.HikariDataSourceProvider;
 import it.intesys.codylab.db.model.Project;
-import it.intesys.codylab.db.repository.ProjectRepository;
 import it.intesys.codylab.service.ProjectService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +12,12 @@ import java.util.List;
 @RequestMapping("/projects")
 public class ProjectController {
 
-    private final ProjectService projectService =
-            new ProjectService(new ProjectRepository(HikariDataSourceProvider.getDataSource()));
+    private final ProjectService projectService;
+
+    public ProjectController(ProjectService projectService) {
+        System.out.println("----- Chiamato costruttore ProjectController");
+        this.projectService = projectService;
+    }
 
     @GetMapping
     public List<Project> findAll(){
