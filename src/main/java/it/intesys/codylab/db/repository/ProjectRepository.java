@@ -17,6 +17,7 @@ public class ProjectRepository {
     private final DataSource dataSource;
 
     public ProjectRepository(DataSource dataSource) {
+        System.out.println("---- Chiamato costruttore di ProjectRepository");
         this.dataSource = dataSource;
     }
 
