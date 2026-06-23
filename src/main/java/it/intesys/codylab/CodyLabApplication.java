@@ -1,9 +1,6 @@
 package it.intesys.codylab;
 
-import it.intesys.codylab.db.JdbcDemo;
 import it.intesys.codylab.db.config.HikariDataSourceProvider;
-import it.intesys.codylab.db.model.Project;
-import it.intesys.codylab.db.model.ProjectStatus;
 import it.intesys.codylab.db.model.Tracking;
 import it.intesys.codylab.db.repository.ActivityRepository;
 import it.intesys.codylab.db.repository.ProjectRepository;
@@ -18,6 +15,7 @@ import java.time.LocalDate;
 public class CodyLabApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(CodyLabApplication.class);
+
     static void main() {
         DataSource dataSource = HikariDataSourceProvider.getDataSource();
         TrackingService trackingService = new TrackingService(
@@ -34,7 +32,7 @@ public class CodyLabApplication {
                 .setCreateDate(LocalDate.now());
         trackingService.insertTrack(tracking);
 
-         tracking = new Tracking()
+        tracking = new Tracking()
                 .setActivityId(5)
                 .setDurationMinutes(120)
                 .setDescription("Riunione di analisi")

@@ -9,10 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
-
 import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TrackingServiceIntTest {
 
@@ -39,7 +36,7 @@ class TrackingServiceIntTest {
             trackingService.insertTrack(tracking);
             assert (false);
         } catch (IllegalArgumentException e) {
-            assert(true);
+            assert (true);
         }
 
     }
@@ -69,6 +66,6 @@ class TrackingServiceIntTest {
 
         // assert
         int sizeAfter = trackingRepository.findAll().size();
-        assert(sizeAfter == sizeBefore + 1);
+        assert (sizeAfter == sizeBefore + 1);
     }
 }
