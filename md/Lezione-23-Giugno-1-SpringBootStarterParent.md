@@ -29,7 +29,7 @@ Esempio:
 <dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-context</artifactId>
-    <version>6.x.x</version>
+    <version>7.x.x</version>
 </dependency>
 ```
 
@@ -45,7 +45,7 @@ Nel `pom.xml` possiamo definire:
 <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.5.6</version>
+    <version>4.1.0</version>
 </parent>
 ```
 
@@ -69,8 +69,8 @@ Esempio:
 ```xml
 <dependency>
     <groupId>org.springframework</groupId>
-    <artifactId>spring-web</artifactId>
-    <version>6.x.x</version>
+    <artifactId>spring-boot-starter-webmvc</artifactId>
+    <version>4.1.0</version>
 </dependency>
 ```
 
@@ -78,7 +78,7 @@ Esempio:
 ```xml
 <dependency>
     <groupId>org.springframework</groupId>
-    <artifactId>spring-web</artifactId>
+    <artifactId>spring-boot-starter-webmvc</artifactId>
 </dependency>
 ```
 
@@ -188,7 +188,7 @@ Questo evita di:
 
 Nelle prossime fasi useremo:
 
-- `spring-boot-starter-web`
+- `spring-boot-starter-webmvc`
 - `@SpringBootApplication`
 - controller REST
 - dependency injection automatica
@@ -215,3 +215,4 @@ Il `spring-boot-starter-parent` non è Spring “in esecuzione”.
 👉 Arrivati fin qua abbiamo Spring Boot ma non stiamo ancora usando Spring per costruire API  
 👉 Stiamo usando Spring Boot per costruire il progetto nel modo corretto  
 👉 Il parent è ciò che rende tutto questo possibile senza configurazioni manuali complesse
+
