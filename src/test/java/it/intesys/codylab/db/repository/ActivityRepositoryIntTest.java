@@ -9,18 +9,16 @@ import java.util.Optional;
 
 class ActivityRepositoryIntTest {
 
+    private ActivityRepository activityRepository = new ActivityRepository(HikariTestDataSourceProvider.getDataSource());
+
     @Test
     void testfindById() {
-        DataSource ds = HikariTestDataSourceProvider.getDataSource();
-        ActivityRepository activityRepository = new ActivityRepository(ds);
         Optional<Activity> activity = activityRepository.findById(1L);
         assert(activity.isPresent());
     }
 
     @Test
     void test2findById() {
-        DataSource ds = HikariTestDataSourceProvider.getDataSource();
-        ActivityRepository activityRepository = new ActivityRepository(ds);
         Optional<Activity> activity = activityRepository.findById(100L);
         assert(activity.isEmpty());
     }
