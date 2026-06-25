@@ -2,6 +2,7 @@ package it.intesys.codylab.db.repository;
 
 import it.intesys.codylab.db.config.HikariDataSourceProvider;
 import it.intesys.codylab.db.model.Project;
+import it.intesys.codylab.db.model.ProjectStatus;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
@@ -30,21 +31,38 @@ class ProjectRepositoryTest {
     @Test
     void insert() {
         Project newProject = new Project();
-        newProject.setTitle("Nuovo Progetto di Test");
-        newProject.setDescription("Nuovo Progetto di Test");
-        newProject.setEstimatedHours(2);
+        newProject.setTitle("Nuovo Progetto di Test")
+                        .setStatus(ProjectStatus.CREATED)
+                .setDescription("Nuovo Progetto di Test")
+                .setEstimatedHours(2)
+                .setStartDate(LocalDate.now())
+                .setEndDate(LocalDate.now().plusDays(30))
+                .setUpdateDate(LocalDate.now())
+                .setCreateDate(LocalDate.now());
 
-        newProject.setStartDate(LocalDate.now());
-        newProject.setEndDate(LocalDate.now().plusDays(30));
-        newProject.setUpdateDate(LocalDate.now());
+        Long projectId = projectRepository.insert(newProject);
+        assert(projectId != null);
 
-        Optional<Project> project = projectRepository.findById(10L);
-        assertTrue(project.isPresent());
+        Optional<Project> savedProject = projectRepository.findById(projectId);
+        assert(savedProject.isPresent());
     }
 
-    //@Test
-//    void updateProjectById() {
-//        Optional<Project> project = projectRepository.updateProjectById(1L);
-//        assert(project.isPresent());
-//    }
+    @Test
+    void updateProjectById() {
+        Project newProject = new Project();
+        newProject.setTitle("aggiornato Progetto di Test")
+                .setStatus(ProjectStatus.CREATED)
+                .setDescription("aggiornato Progetto di Test")
+                .setEstimatedHours(2)
+                .setStartDate(LocalDate.now())
+                .setEndDate(LocalDate.now().plusDays(30))
+                .setUpdateDate(LocalDate.now());
+
+
+         projectRepository.updateProjectById(1L, newProject);
+        Optional<Project> savedProject = projectRepository.findById(1L);
+        assert(savedProject.isPresent());
+        assert ("aggiornato Progetto di Test".equals(savedProject.get().getTitle()));
+        //assert ("aggiornato Progetto di Test" == savedProject.get().getTitle());
+    }
 }
