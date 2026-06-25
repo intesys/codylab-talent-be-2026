@@ -170,3 +170,11 @@ CREATE TABLE trackings (
                            create_date DATE NOT NULL,
                            update_date DATE
 );
+
+-- =========================
+-- TRACKINGS (Dados de teste)
+-- =========================
+INSERT INTO trackings (description, duration_minutes, activity_id, user_id, create_date) VALUES
+                                                                                             ('Sviluppo task di analisi', 120, 1, 1, '2026-06-25'),
+                                                                                             ('Sviluppo backend completo', 240, 2, 2, '2026-06-25'),
+                                                                                             ('Bug fixing frontend', 60, 3, 3, '2026-06-25');
