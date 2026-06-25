@@ -12,10 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ActivityRepositoryIntTest {
 
+    private ActivityRepository activityRepository = new ActivityRepository(HikariTestDataSourceProvider.getDataSource());
+
     @Test
     void testfindById() {
-        DataSource ds = HikariTestDataSourceProvider.getDataSource();
-        ActivityRepository activityRepository = new ActivityRepository(ds);
+
         Optional<Activity> activity = activityRepository.findById(1L);
         assert(activity.isPresent());
 
