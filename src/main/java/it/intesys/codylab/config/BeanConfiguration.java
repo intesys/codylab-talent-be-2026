@@ -1,8 +1,12 @@
 package it.intesys.codylab.config;
 
 import it.intesys.codylab.db.config.HikariDataSourceProvider;
+import it.intesys.codylab.db.repository.ActivityRepository;
 import it.intesys.codylab.db.repository.ProjectRepository;
+import it.intesys.codylab.db.repository.TrackingRepository;
+import it.intesys.codylab.service.ActivityService;
 import it.intesys.codylab.service.ProjectService;
+import it.intesys.codylab.service.TrackingService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,4 +29,17 @@ public class BeanConfiguration {
     public ProjectService createProjectService(ProjectRepository projectRepository) {
         return new ProjectService(projectRepository);
     }
+
+    @Bean
+    public TrackingService trackingService(TrackingRepository trackingRepository,
+                                           ActivityRepository activityRepository,
+                                           ProjectRepository projectRepository) {
+        return new TrackingService(trackingRepository, activityRepository, projectRepository);
+    }
+
+    @Bean
+    public ActivityService activityService(ActivityRepository activityRepository) {
+        return new ActivityService(activityRepository);
+    }
+
 }
