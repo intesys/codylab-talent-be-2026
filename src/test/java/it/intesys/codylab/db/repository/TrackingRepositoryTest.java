@@ -30,4 +30,28 @@ class TrackingRepositoryTest {
         assertEquals(1L, tracking.getId(), "L'ID restituito dovrebbe essere 1.");
 
     }
+    @Test
+    void insert() {
+        Tracking nuova = new Tracking();
+        nuova.setDescription("test: Nuova attività da inserire");
+        nuova.setDurationMinutes(30);
+        nuova.setActivityId(1L);
+        nuova.setUserId(1L);
+        nuova.setCreateDate(java.time.LocalDate.now());
+
+        long getId = trackingRepository.insert(nuova);
+        assertNotNull(getId, "L'ID non deve essere nullo");
+        assertTrue(trackingRepository.findById(getId).isPresent(), "Il record deve esistere nel database.");
+
+    }
+    @Test
+    void update() {
+        Tracking tracking = trackingRepository.findById(1L).get();
+        tracking.setDescription("Descrizione modificata");
+
+        trackingRepository.update(1L, tracking);
+        Tracking updatedTracking = trackingRepository.findById(1L).get();
+        assertEquals("Descrizione modificata", updatedTracking.getDescription());
+    }
+    
 }
