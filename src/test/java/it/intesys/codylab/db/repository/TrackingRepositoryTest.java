@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.internal.matchers.Null;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,5 +54,14 @@ class TrackingRepositoryTest {
         Tracking updatedTracking = trackingRepository.findById(1L).get();
         assertEquals("Descrizione modificata", updatedTracking.getDescription());
     }
-    
+    @Test
+    void deleteById() {
+        trackingRepository.deleteById(1L);
+
+        assertTrue(trackingRepository.findById(1L).isEmpty(), "Il record dovrebbe essere stato eliminato");
+    }
+    @Test
+    void findByIdNotFound() {
+        assertTrue(trackingRepository.findById(999L).isEmpty(), "L'ID non trovata.");
+    }
 }
