@@ -14,6 +14,8 @@ import java.util.Optional;
 
 public class ProjectRepository {
 
+
+
     private final DataSource dataSource;
 
     public ProjectRepository(DataSource dataSource) {
@@ -81,7 +83,12 @@ public class ProjectRepository {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * * Nota: È stata rimossa "RETURNING id" (specifica di PostgreSQL)
+     * a favore dell'uso di Statement.RETURN_GENERATED_KEYS.
+     * Questa modifica rende il metodo compatibile sia con PostgreSQL in produzione
+     * che con H2 durante i test in memoria, evitando errori di sintassi SQL.
+     */
     public long insert(Project project) {
         String sql = """
         INSERT INTO projects
@@ -96,12 +103,12 @@ public class ProjectRepository {
             status
         )
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        RETURNING id
+        
         """;
 
         try (
                 var connection = dataSource.getConnection();
-                var statement = connection.prepareStatement(sql)
+                var statement = connection.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
         ) {
             statement.setString(1, project.getTitle());
             statement.setString(2, project.getDescription());
@@ -112,7 +119,9 @@ public class ProjectRepository {
             statement.setDate(7, project.getUpdateDate() != null ? Date.valueOf(project.getUpdateDate()) : null);
             statement.setObject(8, project.getStatus().name(), Types.OTHER);
 
-            try (var rs = statement.executeQuery()) {
+            statement.executeUpdate();
+
+            try (var rs = statement.getGeneratedKeys()) {
                 rs.next();
                 return rs.getLong(1);
             }
@@ -228,5 +237,23 @@ public class ProjectRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+public void deleteById(long id) {
+    String sql = """
+            DELETE FROM projects
+            WHERE id = ?
+            """;
+
+    try (
+            var connection = dataSource.getConnection();
+            var statement = connection.prepareStatement(sql)
+    ) {
+        statement.setLong(1, id);
+        statement.executeUpdate();
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
     }
 }
