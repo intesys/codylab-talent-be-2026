@@ -64,4 +64,14 @@ class TrackingRepositoryTest {
     void findByIdNotFound() {
         assertTrue(trackingRepository.findById(999L).isEmpty(), "L'ID non trovata.");
     }
+    @Test
+    void updateNotFound() {
+        Tracking tracking = new Tracking();
+        tracking.setDescription("teste: Questo non deve modificare nulla");
+        tracking.setDurationMinutes(10);
+
+        trackingRepository.update(999L, tracking);
+
+        assertTrue(trackingRepository.findById(999L).isEmpty(), "Il record non dovrebbe essere stato creato o modificato");
+    }
 }
