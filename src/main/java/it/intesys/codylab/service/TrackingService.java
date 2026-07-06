@@ -44,4 +44,8 @@ public class TrackingService {
 
         trackingRepository.insert(tracking);
     }
+
+    public List<Tracking> findAll() {
+        return trackingRepository.findAll();
+    }
 }
