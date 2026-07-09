@@ -15,7 +15,7 @@ public class HikariTestDataSourceProvider {
 
     public static DatabaseConfig getConfig() {
         return new DatabaseConfig(
-                "jdbc:h2:mem:codylab2026;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:sql/esercizio-1.sql'",
+                "jdbc:h2:mem:codylab2026;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:sql/esercizio-1.sql'",
                 "codylab2026",
                 "codylab2026",
                 2

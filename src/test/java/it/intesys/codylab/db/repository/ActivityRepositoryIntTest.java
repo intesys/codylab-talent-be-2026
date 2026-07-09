@@ -21,7 +21,5 @@ class ActivityRepositoryIntTest {
     void test2findById() {
         Optional<Activity> activity = activityRepository.findById(100L);
         assert(activity.isEmpty());
-    }
-}
 
 
