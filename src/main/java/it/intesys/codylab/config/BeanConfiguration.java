@@ -1,9 +1,10 @@
 package it.intesys.codylab.config;
 
 import it.intesys.codylab.db.config.HikariDataSourceProvider;
+import it.intesys.codylab.db.repository.ActivityRepository;
 import it.intesys.codylab.db.repository.ProjectRepository;
 import it.intesys.codylab.db.repository.TrackingRepository;
-import it.intesys.codylab.db.service.ActivityService;
+import it.intesys.codylab.service.ActivityService;
 import it.intesys.codylab.service.ProjectService;
 import it.intesys.codylab.service.TrackingService;
 import org.springframework.context.annotation.Bean;

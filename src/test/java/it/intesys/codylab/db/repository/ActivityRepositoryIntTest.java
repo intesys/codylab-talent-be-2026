@@ -14,12 +14,12 @@ class ActivityRepositoryIntTest {
     @Test
     void testfindById() {
         Optional<Activity> activity = activityRepository.findById(1L);
-        assert(activity.isPresent());
+        assert (activity.isPresent());
     }
 
     @Test
     void test2findById() {
         Optional<Activity> activity = activityRepository.findById(100L);
-        assert(activity.isEmpty());
-
-
+        assert (activity.isEmpty());
+    }
+}

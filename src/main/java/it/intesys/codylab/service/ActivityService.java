@@ -1,3 +1,5 @@
+package it.intesys.codylab.service;
+
 import it.intesys.codylab.db.model.Activity;
 import it.intesys.codylab.db.repository.ActivityRepository;
 import java.util.List;
