@@ -21,13 +21,23 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ProjectRepository creteProjectRepository(DataSource dataSource) {
+    public ProjectRepository createProjectRepository(DataSource dataSource) {
         return new ProjectRepository(dataSource);
     }
 
     @Bean
     public ProjectService createProjectService(ProjectRepository projectRepository) {
         return new ProjectService(projectRepository);
+    }
+
+    @Bean
+    public ActivityRepository createActivityRepository(DataSource dataSource) {
+        return new ActivityRepository(dataSource);
+    }
+
+    @Bean
+    public TrackingRepository createTrackingRepository(DataSource dataSource) {
+        return new TrackingRepository(dataSource);
     }
 
     @Bean
@@ -41,5 +51,4 @@ public class BeanConfiguration {
     public ActivityService activityService(ActivityRepository activityRepository) {
         return new ActivityService(activityRepository);
     }
-
 }
