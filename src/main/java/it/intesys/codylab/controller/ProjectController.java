@@ -51,8 +51,7 @@ public class ProjectController {
         projectData.setCreateDate(LocalDate.now());
         long projectId = projectService.insert(projectData);
         System.out.println("Project " + projectId + " inserito");
-        return ResponseEntity.created(URI.create("/projects/" + projectId))
-                .body(projectId);
+        return ResponseEntity.created(URI.create("/projects/" + projectId)).body(projectId);
     }
 
     @PutMapping("/{projectId}")
@@ -70,6 +69,19 @@ public class ProjectController {
 
             projectService.update(projectId, existingProject);
             System.out.println("Project " + projectId + " aggiornato");
+            return ResponseEntity.ok().build();
+        } else {
+            System.out.println("Project " + projectId + " non trovato per aggiornamento");
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<Void> delete(@PathVariable("projectId") Long projectId) {
+        Optional<Project> projectOptional = projectService.findById(projectId);
+        if (projectOptional.isPresent()) {
+            projectService.delete(projectId);
+            System.out.println("Project " + projectId + " eliminato");
             return ResponseEntity.ok().build();
         } else {
             System.out.println("Project " + projectId + " non trovato per aggiornamento");

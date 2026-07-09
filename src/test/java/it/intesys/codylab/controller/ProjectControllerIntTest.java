@@ -8,8 +8,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -102,5 +101,55 @@ class ProjectControllerIntTest {
                 .andExpect(jsonPath("$.title").value("Progetto CodyLab Y"))
                 .andExpect(jsonPath("$.updateDate").doesNotExist());
 
+    }
+
+    /**
+    @Test
+    void shouldDeleteOk() throws Exception{
+        String projectId = "7";
+
+        mvc.perform(get("/projects/" + projectId))
+                .andExpect(status().isOk());
+
+        mvc.perform(delete("/projects/" + projectId))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/projects/" + projectId))
+                .andExpect(status().isNotFound());
+    }
+    */
+
+    @Test
+    void shouldUpdateProject() throws Exception{
+        String projectId = "6";
+
+        mvc.perform(get("/projects/" + projectId))
+                .andExpect(status().isOk());
+
+        mvc.perform(put("/projects/" + projectId)
+                .contentType("application/json")
+                .content("""
+{
+    "description": "Progetto Y per post codylab",
+    "endDate": "2026-11-01",
+    "estimatedHours": 360,
+    "startDate": "2026-08-01",
+    "createDate": "2026-07-09",
+    "status": "CREATED",
+    "title": "Progetto CodyLab Y"
+}
+"""))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/projects/" + projectId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.description").value("Progetto Y per post codylab"))
+                .andExpect(jsonPath("$.endDate").value("2026-11-01"))
+                .andExpect(jsonPath("$.estimatedHours").value(360))
+                .andExpect(jsonPath("$.id").value(projectId))
+                .andExpect(jsonPath("$.startDate").value("2026-08-01"))
+                .andExpect(jsonPath("$.status").value("CREATED"))
+                .andExpect(jsonPath("$.title").value("Progetto CodyLab Y"))
+                ;
     }
 }
