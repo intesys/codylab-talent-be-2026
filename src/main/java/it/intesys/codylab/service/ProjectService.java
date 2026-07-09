@@ -22,4 +22,8 @@ public class ProjectService {
     public Optional<Project> findById(Long projectId) {
         return projectRepository.findById(projectId);
     }
+
+    public long insert(Project project) {
+        return projectRepository.insert(project);
+    }
 }
