@@ -26,4 +26,8 @@ public class ProjectService {
     public long insert(Project project) {
         return projectRepository.insert(project);
     }
+
+    public void update(Long projectId, Project project) {
+        projectRepository.updateProjectById(projectId, project);
+    }
 }

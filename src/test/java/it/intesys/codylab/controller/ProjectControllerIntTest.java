@@ -5,10 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -44,5 +45,46 @@ class ProjectControllerIntTest {
     void findAllShouldReturn404NotFound() throws Exception {
         mvc.perform(get("/projects/5000"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturn400BadRequest() throws Exception {
+        mvc.perform(post("/projects")
+                .contentType("application/json")
+                .content("""
+{
+    "description": "Progetto x per post codylab",
+    "endDate": "2026-11-01",
+    "estimatedHours": 360,
+    "startDate": "2026-08-01",
+    "createDate": "2026-07-09",
+    "status": "OPEN",
+    "title": "Progetto CodyLab x"
+}                        
+                        """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturn201Created() throws Exception {
+        MvcResult result = mvc.perform(post("/projects")
+                        .contentType("application/json")
+                        .content("""
+{
+    "description": "Progetto Y per post codylab",
+    "endDate": "2026-11-01",
+    "estimatedHours": 360,
+    "startDate": "2026-08-01",
+    "createDate": "2026-07-09",
+    "status": "CREATED",
+    "title": "Progetto CodyLab Y"
+}                        
+                        """))
+                .andExpect(status().isCreated())
+                .andExpect(header().exists("Location")).andReturn();
+
+        String projectId = result.getResponse().getContentAsString();
+        mvc.perform(get("/projects/" + projectId))
+                .andExpect(status().isOk());
     }
 }
