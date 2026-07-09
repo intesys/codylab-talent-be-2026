@@ -28,17 +28,15 @@ class ProjectControllerIntTest {
     void findAllShouldReturnOkWithProjectDetail() throws Exception {
         mvc.perform(get("/projects/5"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\n" +
-                        "    \"createDate\": \"2026-06-01\",\n" +
-                        "    \"description\": \"Dashboard analitica per monitoraggio KPI commerciali\",\n" +
-                        "    \"endDate\": \"2026-09-01\",\n" +
-                        "    \"estimatedHours\": 180,\n" +
-                        "    \"id\": 5,\n" +
-                        "    \"startDate\": \"2026-07-01\",\n" +
-                        "    \"status\": \"CLOSED\",\n" +
-                        "    \"title\": \"Dashboard Vendite\",\n" +
-                        "    \"updateDate\": null\n" +
-                        "}"));
+                .andExpect(jsonPath("$.createDate").value("2026-06-01"))
+                .andExpect(jsonPath("$.description").value("Dashboard analitica per monitoraggio KPI commerciali"))
+                .andExpect(jsonPath("$.endDate").value("2026-09-01"))
+                .andExpect(jsonPath("$.estimatedHours").value(180))
+                .andExpect(jsonPath("$.id").value(5))
+                .andExpect(jsonPath("$.startDate").value("2026-07-01"))
+                .andExpect(jsonPath("$.status").value("CLOSED"))
+                .andExpect(jsonPath("$.title").value("Dashboard Vendite"))
+                .andExpect(jsonPath("$.updateDate").doesNotExist());
     }
 
     @Test
@@ -60,8 +58,8 @@ class ProjectControllerIntTest {
     "createDate": "2026-07-09",
     "status": "OPEN",
     "title": "Progetto CodyLab x"
-}                        
-                        """))
+}
+"""))
                 .andExpect(status().isBadRequest());
     }
 
@@ -78,13 +76,22 @@ class ProjectControllerIntTest {
     "createDate": "2026-07-09",
     "status": "CREATED",
     "title": "Progetto CodyLab Y"
-}                        
-                        """))
+}
+"""))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location")).andReturn();
 
         String projectId = result.getResponse().getContentAsString();
         mvc.perform(get("/projects/" + projectId))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.description").value("Progetto Y per post codylab"))
+                .andExpect(jsonPath("$.endDate").value("2026-11-01"))
+                .andExpect(jsonPath("$.estimatedHours").value(360))
+                .andExpect(jsonPath("$.id").value(projectId))
+                .andExpect(jsonPath("$.startDate").value("2026-08-01"))
+                .andExpect(jsonPath("$.status").value("CREATED"))
+                .andExpect(jsonPath("$.title").value("Progetto CodyLab Y"))
+                .andExpect(jsonPath("$.updateDate").doesNotExist());
+
     }
 }
