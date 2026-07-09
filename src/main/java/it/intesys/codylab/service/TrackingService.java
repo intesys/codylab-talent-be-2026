@@ -22,7 +22,9 @@ public class TrackingService {
         this.activityRepository = activityRepository;
         this.projectRepository = projectRepository;
     }
-
+    public List<Tracking> findAll() {
+        return trackingRepository.findAll();
+    }
     public void insertTrack(Tracking tracking) {
 
         //controllo se il progetto è attivo
