@@ -7,6 +7,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -21,7 +22,15 @@ class ProjectControllerIntTest {
     @Test
     void findAllShouldReturnOk() throws Exception {
         mvc.perform(get("/projects"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(1)))
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].title").value("CRM Aziendale"))
+                .andExpect(jsonPath("$[0].status").value("CREATED"))
+                .andExpect(jsonPath("$[4].id").value(5))
+                .andExpect(jsonPath("$[4].title").value("Dashboard Vendite"))
+                .andExpect(jsonPath("$[4].status").value("CLOSED"));
     }
 
     @Test
