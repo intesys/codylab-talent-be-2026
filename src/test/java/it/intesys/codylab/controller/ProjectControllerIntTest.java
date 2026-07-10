@@ -1,9 +1,13 @@
 package it.intesys.codylab.controller;
 
+import it.intesys.codylab.config.BeanTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -13,6 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ContextConfiguration(classes  = BeanTestConfiguration.class)
+@ActiveProfiles("test")
 class ProjectControllerIntTest {
 
     @Autowired
@@ -56,18 +62,18 @@ class ProjectControllerIntTest {
     @Test
     void shouldReturn400BadRequest() throws Exception {
         mvc.perform(post("/projects")
-                .contentType("application/json")
-                .content("""
-{
-    "description": "Progetto x per post codylab",
-    "endDate": "2026-11-01",
-    "estimatedHours": 360,
-    "startDate": "2026-08-01",
-    "createDate": "2026-07-09",
-    "status": "OPEN",
-    "title": "Progetto CodyLab x"
-}
-"""))
+                        .contentType("application/json")
+                        .content("""
+                                {
+                                    "description": "Progetto x per post codylab",
+                                    "endDate": "2026-11-01",
+                                    "estimatedHours": 360,
+                                    "startDate": "2026-08-01",
+                                    "createDate": "2026-07-09",
+                                    "status": "OPEN",
+                                    "title": "Progetto CodyLab x"
+                                }
+                                """))
                 .andExpect(status().isBadRequest());
     }
 
@@ -76,16 +82,16 @@ class ProjectControllerIntTest {
         MvcResult result = mvc.perform(post("/projects")
                         .contentType("application/json")
                         .content("""
-{
-    "description": "Progetto Y per post codylab",
-    "endDate": "2026-11-01",
-    "estimatedHours": 360,
-    "startDate": "2026-08-01",
-    "createDate": "2026-07-09",
-    "status": "CREATED",
-    "title": "Progetto CodyLab Y"
-}
-"""))
+                                {
+                                    "description": "Progetto Y per post codylab",
+                                    "endDate": "2026-11-01",
+                                    "estimatedHours": 360,
+                                    "startDate": "2026-08-01",
+                                    "createDate": "2026-07-09",
+                                    "status": "CREATED",
+                                    "title": "Progetto CodyLab Y"
+                                }
+                                """))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location")).andReturn();
 
@@ -103,10 +109,9 @@ class ProjectControllerIntTest {
 
     }
 
-    /**
     @Test
-    void shouldDeleteOk() throws Exception{
-        String projectId = "7";
+    void shouldDeleteOk() throws Exception {
+        String projectId = "6";
 
         mvc.perform(get("/projects/" + projectId))
                 .andExpect(status().isOk());
@@ -117,28 +122,27 @@ class ProjectControllerIntTest {
         mvc.perform(get("/projects/" + projectId))
                 .andExpect(status().isNotFound());
     }
-    */
 
     @Test
-    void shouldUpdateProject() throws Exception{
-        String projectId = "6";
+    void shouldUpdateProject() throws Exception {
+        String projectId = "7";
 
         mvc.perform(get("/projects/" + projectId))
                 .andExpect(status().isOk());
 
         mvc.perform(put("/projects/" + projectId)
-                .contentType("application/json")
-                .content("""
-{
-    "description": "Progetto Y per post codylab",
-    "endDate": "2026-11-01",
-    "estimatedHours": 360,
-    "startDate": "2026-08-01",
-    "createDate": "2026-07-09",
-    "status": "CREATED",
-    "title": "Progetto CodyLab Y"
-}
-"""))
+                        .contentType("application/json")
+                        .content("""
+                                {
+                                    "description": "Progetto Y per post codylab",
+                                    "endDate": "2026-11-01",
+                                    "estimatedHours": 360,
+                                    "startDate": "2026-08-01",
+                                    "createDate": "2026-07-09",
+                                    "status": "CREATED",
+                                    "title": "Progetto CodyLab Y"
+                                }
+                                """))
                 .andExpect(status().isOk());
 
         mvc.perform(get("/projects/" + projectId))
@@ -150,6 +154,6 @@ class ProjectControllerIntTest {
                 .andExpect(jsonPath("$.startDate").value("2026-08-01"))
                 .andExpect(jsonPath("$.status").value("CREATED"))
                 .andExpect(jsonPath("$.title").value("Progetto CodyLab Y"))
-                ;
+        ;
     }
 }
