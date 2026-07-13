@@ -27,14 +27,27 @@ public class CustomerRepository {
     // --- Flusso scritta (Michele) ---
 
     public Customer save(Customer customer) {
-        return null;
+        // Calcola il prossimo ID disponibile in modo dinamico
+        long nextId = customers.stream()
+                .mapToLong(c -> c.getId() != null ? c.getId() : 0L)
+                .max()
+                .orElse(0L) + 1;
+
+        customer.setId(nextId);
+        customers.add(customer);
+        return customer;
     }
 
     public Optional<Customer> update(Long id, Customer customerDetails) {
-        return Optional.empty();
+        return findById(id).map(existingCustomer -> {
+            // Aggiorna i campi del cliente esistente con i nuovi dettagli
+            existingCustomer.setName(customerDetails.getName());
+            // Aggiungi qui altri eventuali setter se la classe Customer ha altri campi (es. email)
+            return existingCustomer;
+        });
     }
 
     public boolean deleteById(Long id) {
-        return false;
+        return customers.removeIf(c -> c.getId() != null && c.getId().equals(id));
     }
 }

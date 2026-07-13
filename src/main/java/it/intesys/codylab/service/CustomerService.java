@@ -1,4 +1,4 @@
-package it.intesys.codylab.db.service;
+package it.intesys.codylab.service;
 
 import it.intesys.codylab.db.model.Customer;
 import it.intesys.codylab.db.repository.CustomerRepository;
@@ -28,4 +28,15 @@ public class CustomerService {
 
     // --- (Michele) ---
 
+    public Customer saveCustomer(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
+    public Optional<Customer> updateCustomer(Long id, Customer customerDetails) {
+        return customerRepository.update(id, customerDetails);
+    }
+
+    public boolean deleteCustomer(Long id) {
+        return customerRepository.deleteById(id);
+    }
 }
