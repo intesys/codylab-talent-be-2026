@@ -9,6 +9,7 @@ import it.intesys.codylab.service.ProjectService;
 import it.intesys.codylab.service.TrackingService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 
@@ -16,6 +17,7 @@ import javax.sql.DataSource;
 public class BeanConfiguration {
 
     @Bean
+    @Profile("!test")
     public DataSource createDataSource() {
         return HikariDataSourceProvider.getDataSource();
     }

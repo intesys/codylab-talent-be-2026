@@ -1,6 +1,8 @@
 package it.intesys.codylab.db.repository;
 
 import it.intesys.codylab.db.model.Activity;
+import org.springframework.stereotype.Repository;
+
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -10,11 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class ActivityRepository {
 
     private final DataSource dataSource;
 
     public ActivityRepository(DataSource dataSource) {
+        System.out.println("---- Chiamato costruttore di ActivityRepository");
         this.dataSource = dataSource;
     }
 
@@ -71,12 +75,11 @@ public class ActivityRepository {
         String sql = """
             INSERT INTO activities (name, estimated_hours, project_id, create_date, update_date)
             VALUES (?, ?, ?, ?, ?)
-            RETURNING id
             """;
 
         try (
                 var connection = dataSource.getConnection();
-                var statement = connection.prepareStatement(sql)
+                var statement = connection.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)
         ) {
             statement.setString(1, activity.getName());
             statement.setInt(2, activity.getEstimatedHours());
@@ -93,7 +96,9 @@ public class ActivityRepository {
                 statement.setNull(5, Types.DATE);
             }
 
-            try (var rs = statement.executeQuery()) {
+            statement.executeUpdate();
+
+            try (var rs = statement.getGeneratedKeys()) {
                 rs.next();
                 return rs.getLong(1);
             }

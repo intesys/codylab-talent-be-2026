@@ -1,43 +1,39 @@
 package it.intesys.codylab;
 
-import it.intesys.codylab.db.config.HikariDataSourceProvider;
-import it.intesys.codylab.db.model.Tracking;
-import it.intesys.codylab.db.repository.ActivityRepository;
-import it.intesys.codylab.db.repository.ProjectRepository;
-import it.intesys.codylab.db.repository.TrackingRepository;
-import it.intesys.codylab.service.TrackingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import it.intesys.codylab.db.JdbcDemo;
+import it.intesys.codylab.db.model.Project;
+import it.intesys.codylab.db.model.ProjectStatus;
 
-import javax.sql.DataSource;
 import java.time.LocalDate;
 
 public class CodyLabApplication {
 
-    private static final Logger logger = LoggerFactory.getLogger(CodyLabApplication.class);
-
     static void main() {
-        DataSource dataSource = HikariDataSourceProvider.getDataSource();
-        TrackingService trackingService = new TrackingService(
-                new TrackingRepository(dataSource),
-                new ActivityRepository(dataSource),
-                new ProjectRepository(dataSource)
-        );
+        JdbcDemo jdbcDemo = new JdbcDemo();
+//        jdbcDemo.getAllProjects();
 
-        Tracking tracking = new Tracking()
-                .setActivityId(2)
-                .setDurationMinutes(30)
-                .setDescription("Sviluppo nuova funzionalita")
-                .setUserId(1)
-                .setCreateDate(LocalDate.now());
-        trackingService.insertTrack(tracking);
+//        jdbcDemo.getAllProjectsFromRepository();
 
-        tracking = new Tracking()
-                .setActivityId(5)
-                .setDurationMinutes(120)
-                .setDescription("Riunione di analisi")
-                .setUserId(1)
-                .setCreateDate(LocalDate.now());
-        trackingService.insertTrack(tracking);
+        jdbcDemo.getProjectById(1L);
+
+//        Project project = new Project()
+//                .setTitle("Prova")
+//                .setDescription("Descrizione prova")
+//                .setEstimatedHours(100)
+//                .setStatus(ProjectStatus.CREATED)
+//                .setStartDate(LocalDate.now())
+//                .setEndDate(LocalDate.now().plusDays(10))
+//                .setCreateDate(LocalDate.now())
+//                .setUpdateDate(null);
+
+//        Project projectModificato = new Project()
+//                .setTitle("Prova Modificata")
+//                .setDescription("Descrizione prova modificata")
+//                .setEstimatedHours(100)
+//                .setStatus(ProjectStatus.WORKING)
+//                .setStartDate(LocalDate.now())
+//                .setEndDate(LocalDate.now().plusDays(10));
+//        jdbcDemo.insertProject(project);
+//        jdbcDemo.updateProjectById(project, 1L);
     }
 }

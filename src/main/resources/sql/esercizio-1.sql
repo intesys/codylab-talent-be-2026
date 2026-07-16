@@ -36,11 +36,11 @@ CREATE TABLE activities (
                             estimated_hours INT NOT NULL,
                             create_date DATE NOT NULL,
                             update_date DATE,
-                            project_id INT REFERENCES projects(id)
+                            project_id INT REFERENCES projects(id) ON DELETE CASCADE
 );
 
 CREATE TABLE users_activities(
-                                 activity_id INT REFERENCES activities(id),
+                                 activity_id INT REFERENCES activities(id) ON DELETE CASCADE,
                                  user_id INT REFERENCES users(id),
                                  PRIMARY KEY (activity_id, user_id)
 );
@@ -98,8 +98,16 @@ INSERT INTO projects (
 
       ('Dashboard Vendite',
        'Dashboard analitica per monitoraggio KPI commerciali',
-       4, 180, 'CLOSED', '2026-07-01', '2026-09-01', '2026-06-01', NULL);
+       4, 180, 'CLOSED', '2026-07-01', '2026-09-01', '2026-06-01', NULL),
 
+      ('Progetto per test delete',
+       'Progetto vuoto per testare cancellazione',
+       1, 240, 'CREATED', '2026-06-20', '2026-10-10', '2026-06-01', NULL),
+
+
+      ('Progetto per test',
+       'Progetto vuoto per testare',
+       1, 240, 'CREATED', '2026-06-20', '2026-10-10', '2026-06-01', NULL);
 -- =========================
 -- ACTIVITIES
 -- =========================
@@ -165,7 +173,7 @@ CREATE TABLE trackings (
                            id SERIAL PRIMARY KEY,
                            description TEXT NOT NULL,
                            duration_minutes INT NOT NULL,
-                           activity_id INT REFERENCES activities(id) NOT NULL,
+                           activity_id INT REFERENCES activities(id) ON DELETE CASCADE NOT NULL ,
                            user_id INT REFERENCES users(id) NOT NULL,
                            create_date DATE NOT NULL,
                            update_date DATE

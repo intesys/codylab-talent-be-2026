@@ -54,6 +54,13 @@
             <version>${hikari.version}</version>
         </dependency>
 
+        <!-- Generatore per swagger e openapi -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+
         <!-- Dipendenze di test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
