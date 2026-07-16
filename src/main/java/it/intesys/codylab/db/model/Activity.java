@@ -67,4 +67,16 @@ public class Activity {
         this.projectId = projectId;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", estimatedHours=" + estimatedHours +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                ", projectId=" + projectId +
+                '}';
+    }
 }

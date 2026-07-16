@@ -22,4 +22,16 @@ public class ProjectService {
     public Optional<Project> findById(Long projectId) {
         return projectRepository.findById(projectId);
     }
+
+    public long insert(Project project) {
+        return projectRepository.insert(project);
+    }
+
+    public void update(Long projectId, Project project) {
+        projectRepository.updateProjectById(projectId, project);
+    }
+
+    public void delete(Long projectId) {
+        projectRepository.deleteById(projectId);
+    }
 }

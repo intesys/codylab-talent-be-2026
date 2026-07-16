@@ -98,8 +98,16 @@ INSERT INTO projects (
 
       ('Dashboard Vendite',
        'Dashboard analitica per monitoraggio KPI commerciali',
-       4, 180, 'CLOSED', '2026-07-01', '2026-09-01', '2026-06-01', NULL);
+       4, 180, 'CLOSED', '2026-07-01', '2026-09-01', '2026-06-01', NULL),
 
+      ('Progetto per test delete',
+       'Progetto vuoto per testare cancellazione',
+       1, 240, 'CREATED', '2026-06-20', '2026-10-10', '2026-06-01', NULL),
+
+
+      ('Progetto per test',
+       'Progetto vuoto per testare',
+       1, 240, 'CREATED', '2026-06-20', '2026-10-10', '2026-06-01', NULL);
 -- =========================
 -- ACTIVITIES
 -- =========================
