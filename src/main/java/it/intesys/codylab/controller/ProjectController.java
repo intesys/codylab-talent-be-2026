@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/projects")
+@RequestMapping("/old/projects")
 public class ProjectController {
 
     private final ProjectService projectService;
