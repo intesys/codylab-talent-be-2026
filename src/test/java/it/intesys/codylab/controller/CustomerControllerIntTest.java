@@ -12,11 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ContextConfiguration(classes  = BeanTestConfiguration.class)
-@ActiveProfiles("test")
-class CustomerControllerIntTest {
+class CustomerControllerIntTest extends BaseControllerIntTest {
 
     @Autowired
     MockMvc mvc;

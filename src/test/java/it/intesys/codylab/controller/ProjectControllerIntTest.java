@@ -1,13 +1,7 @@
 package it.intesys.codylab.controller;
 
-import it.intesys.codylab.config.BeanTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -15,11 +9,7 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ContextConfiguration(classes  = BeanTestConfiguration.class)
-@ActiveProfiles("test")
-class ProjectControllerIntTest {
+class ProjectControllerIntTest extends BaseControllerIntTest {
 
     @Autowired
     MockMvc mvc;

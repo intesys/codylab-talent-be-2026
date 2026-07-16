@@ -18,11 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ContextConfiguration(classes  = BeanTestConfiguration.class)
-@ActiveProfiles("test")
-class HelloControllerTest {
+class HelloControllerTest extends BaseControllerIntTest {
 
     @Autowired
     MockMvc mvc;
