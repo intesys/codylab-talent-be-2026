@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/old/trackings")
+@RequestMapping("/trackings")
 public class TrackingController {
 
     private final TrackingService trackingService;
