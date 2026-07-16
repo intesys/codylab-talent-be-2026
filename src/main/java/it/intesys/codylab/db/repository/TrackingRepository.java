@@ -98,7 +98,7 @@ public class TrackingRepository {
     }
 
     // 4. UPDATE
-    public void update(long id, Tracking tracking) {
+    public int update(long id, Tracking tracking) {
         String sql = """
             UPDATE trackings
             SET description = ?,
@@ -126,14 +126,14 @@ public class TrackingRepository {
 
             statement.setLong(6, id);
 
-            statement.executeUpdate();
+            return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     // 5. DELETE
-    public void deleteById(long id) {
+    public int deleteById(long id) {
         String sql = """
             DELETE FROM trackings
             WHERE id = ?
@@ -144,7 +144,7 @@ public class TrackingRepository {
                 var statement = connection.prepareStatement(sql)
         ) {
             statement.setLong(1, id);
-            statement.executeUpdate();
+            return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
