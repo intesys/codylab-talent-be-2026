@@ -1,6 +1,8 @@
 package it.intesys.codylab.db.repository;
 
 import it.intesys.codylab.db.model.Activity;
+import org.springframework.stereotype.Repository;
+
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -10,11 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class ActivityRepository {
 
     private final DataSource dataSource;
 
     public ActivityRepository(DataSource dataSource) {
+        System.out.println("---- Chiamato costruttore di ActivityRepository");
         this.dataSource = dataSource;
     }
 
