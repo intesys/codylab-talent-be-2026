@@ -36,11 +36,11 @@ CREATE TABLE activities (
                             estimated_hours INT NOT NULL,
                             create_date DATE NOT NULL,
                             update_date DATE,
-                            project_id INT REFERENCES projects(id)
+                            project_id INT REFERENCES projects(id) ON DELETE CASCADE
 );
 
 CREATE TABLE users_activities(
-                                 activity_id INT REFERENCES activities(id),
+                                 activity_id INT REFERENCES activities(id) ON DELETE CASCADE,
                                  user_id INT REFERENCES users(id),
                                  PRIMARY KEY (activity_id, user_id)
 );
@@ -173,7 +173,7 @@ CREATE TABLE trackings (
                            id SERIAL PRIMARY KEY,
                            description TEXT NOT NULL,
                            duration_minutes INT NOT NULL,
-                           activity_id INT REFERENCES activities(id) NOT NULL,
+                           activity_id INT REFERENCES activities(id) ON DELETE CASCADE NOT NULL ,
                            user_id INT REFERENCES users(id) NOT NULL,
                            create_date DATE NOT NULL,
                            update_date DATE
