@@ -5,6 +5,7 @@ import it.intesys.codylab.db.repository.ActivityRepository;
 import it.intesys.codylab.db.repository.CustomerRepository;
 import it.intesys.codylab.db.repository.ProjectRepository;
 import it.intesys.codylab.db.repository.TrackingRepository;
+import it.intesys.codylab.mapper.ProjectMapper;
 import it.intesys.codylab.service.ActivityService;
 import it.intesys.codylab.service.CustomerService;
 import it.intesys.codylab.service.ProjectService;
@@ -65,4 +66,5 @@ public class BeanConfiguration {
     public CustomerService createCustomerService(CustomerRepository customerRepository) {
         return new CustomerService(customerRepository);
     }
+
 }
