@@ -1,6 +1,7 @@
 package it.intesys.codylab.controller;
 
 import it.intesys.codylab.controller.api.ProjectControllerApi;
+import it.intesys.codylab.controller.dto.ProblemApiDTO;
 import it.intesys.codylab.controller.dto.ProjectApiDTO;
 import it.intesys.codylab.db.model.Project;
 import it.intesys.codylab.mapper.ProjectMapper;
@@ -8,6 +9,7 @@ import it.intesys.codylab.service.ProjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +39,12 @@ public class OpenApiProjectController implements ProjectControllerApi {
             return ResponseEntity.ok(projectMapper.mapTOApiDto(project));
         } else {
             System.out.println("Project " + projectId + " non trovato");
+            ProblemApiDTO problemApiDTO = new ProblemApiDTO();
+            problemApiDTO.setTitle("Project not found");
+            problemApiDTO.setDetail("Project with ID " + projectId + " not found");
+            problemApiDTO.setStatus(404);
+            problemApiDTO.setInstance(URI.create("/projects/" + projectId));
+            // TODO Dovrei restituire il problemApiDTO .... ma il metodo così come è definito non lo consente
             return ResponseEntity.notFound().build();
         }
     }
