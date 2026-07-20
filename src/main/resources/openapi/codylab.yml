@@ -355,10 +355,6 @@ components:
           example: 'https://example.com/problem/12345'
     Customer:
       type: object
-      required:
-        - id
-        - name
-        - email
       properties:
         id:
           type: integer
@@ -367,33 +363,24 @@ components:
           example: 1
         name:
           type: string
-          description: Nome completo o ragione sociale del cliente
-          example: "Mario Rossi"
-        email:
+          description: Nome del cliente
+          example: "Acme Corp"
+        createDate:
           type: string
-          format: email
-          description: Indirizzo e-mail di contatto
-          example: "mario.rossi@example.com"
-        vatNumber:
+          format: date
+          description: Data di creazione
+        updateDate:
           type: string
-          description: Partita IVA o codice fiscale
-          example: "IT12345678901"
-    CustomerRequest:
-      type: object
+          format: date
+          description: Data di ultimo aggiornamento
       required:
         - name
-        - email
+    CustomerRequest:
+      type: object
       properties:
         name:
           type: string
-          description: Nome completo o ragione sociale del cliente
-          example: "Mario Rossi"
-        email:
-          type: string
-          format: email
-          description: Indirizzo e-mail di contatto
-          example: "mario.rossi@example.com"
-        vatNumber:
-          type: string
-          description: Partita IVA o codice fiscale
-          example: "IT12345678901"
+          description: Nome del cliente
+          example: "Acme Corp"
+      required:
+        - name
