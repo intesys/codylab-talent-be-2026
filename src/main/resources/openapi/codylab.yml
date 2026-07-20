@@ -148,6 +148,32 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Customer'
+
+    post:
+      tags:
+        - customer-controller
+      summary: Create a new customer
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Customer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+
   /customers/{id}:
     parameters:
       - name: id
@@ -174,6 +200,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+
+    put:
+      tags:
+        - customer-controller
+      summary: Update an existing customer
+      operationId: updateCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: Customer updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    delete:
+      tags:
+        - customer-controller
+      summary: Delete a customer
+      operationId: deleteCustomer
+      responses:
+        '204':
+          description: Customer deleted successfully
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+
 components:
   schemas:
     LoginRequest:
