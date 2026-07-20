@@ -4,26 +4,26 @@ info:
   version: v0
 paths:
   /api/auth/login:
-   post:
-    tags:
-      - auth-controller
-    summary: User login
-    operationId: loginUser
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/LoginRequest'
-    responses:
-      '200':
-        description: Successful login
+    post:
+      tags:
+        - auth-controller
+      summary: User login
+      operationId: loginUser
+      requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
-      '401':
-        description: Invalid credentials
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Invalid credentials
   /projects:
     get:
       tags:
@@ -133,6 +133,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  /customers:
+    get:
+      tags:
+        - customer-controller
+      summary: Restituisce la lista di tutti i clienti
+      operationId: getAllCustomers
+      responses:
+        '200':
+          description: Lista di clienti recuperata con successo
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+  /customers/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - customer-controller
+      summary: Restituisce un cliente specifico tramite ID
+      operationId: getCustomerById
+      responses:
+        '200':
+          description: Cliente trovato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Cliente non trovato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
 components:
   schemas:
     LoginRequest:
@@ -207,7 +248,7 @@ components:
           type: string
           format: uri
           description: |
-            An absolute URI that identifies the problem type.  When dereferenced,
+            An absolute URI that identifies the problem type. When dereferenced,
             it SHOULD provide human-readable documentation for the problem type
             (e.g., using HTML).
           default: 'about:blank'
@@ -240,3 +281,47 @@ components:
             An absolute URI that identifies the specific occurrence of the problem.
             It may or may not yield further information if dereferenced.
           example: 'https://example.com/problem/12345'
+    Customer:
+      type: object
+      required:
+        - id
+        - name
+        - email
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Identificativo unico del cliente
+          example: 1
+        name:
+          type: string
+          description: Nome completo o ragione sociale del cliente
+          example: "Mario Rossi"
+        email:
+          type: string
+          format: email
+          description: Indirizzo e-mail di contatto
+          example: "mario.rossi@example.com"
+        vatNumber:
+          type: string
+          description: Partita IVA o codice fiscale
+          example: "IT12345678901"
+    CustomerRequest:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          description: Nome completo o ragione sociale del cliente
+          example: "Mario Rossi"
+        email:
+          type: string
+          format: email
+          description: Indirizzo e-mail di contatto
+          example: "mario.rossi@example.com"
+        vatNumber:
+          type: string
+          description: Partita IVA o codice fiscale
+          example: "IT12345678901"
