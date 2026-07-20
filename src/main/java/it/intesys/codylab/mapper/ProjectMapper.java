@@ -10,7 +10,9 @@ import java.util.List;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface ProjectMapper {
 
-    ProjectApiDTO mapTOApiDto(Project project);
+    ProjectApiDTO mapToApiDto(Project project);
+
     Project mapToEntity(ProjectApiDTO projectApiDTO);
+
     List<ProjectApiDTO> mapToApiDtoList(List<Project> projectsList);
 }

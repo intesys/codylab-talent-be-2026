@@ -100,3 +100,4 @@ Ogni gruppo dovrà consegnare:
 -   Repository
 -   Test di integrazione con MockMvc
 
+.\mvnw spring-boot:run

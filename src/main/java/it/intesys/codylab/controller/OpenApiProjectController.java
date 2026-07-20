@@ -36,7 +36,7 @@ public class OpenApiProjectController implements ProjectControllerApi {
         if (projectOptional.isPresent()) {
             System.out.println("Project " + projectId + " trovato");
             Project project = projectOptional.get();
-            return ResponseEntity.ok(projectMapper.mapTOApiDto(project));
+            return ResponseEntity.ok(projectMapper.mapToApiDto(project)); // Corretto: o minuscola
         } else {
             System.out.println("Project " + projectId + " non trovato");
             ProblemApiDTO problemApiDTO = new ProblemApiDTO();
@@ -55,6 +55,6 @@ public class OpenApiProjectController implements ProjectControllerApi {
         projectData.setCreateDate(LocalDate.now());
         long projectId = projectService.insert(projectData);
         System.out.println("Project " + projectId + " inserito");
-        return ResponseEntity.ok(projectMapper.mapTOApiDto(projectService.findById(projectId).get()));
+        return ResponseEntity.ok(projectMapper.mapToApiDto(projectService.findById(projectId).get())); // Corretto: o minuscola
     }
 }
