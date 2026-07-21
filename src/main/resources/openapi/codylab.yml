@@ -2,8 +2,14 @@ openapi: 3.1.0
 info:
   title: CodyLab OpenAPI definition
   version: v0
+servers:
+  - description: default server
+    url: ""
+    variables:
+      prefix:
+        default: api
 paths:
-  /api/auth/login:
+  /auth/login:
     post:
       tags:
         - auth-controller
@@ -292,7 +298,7 @@ components:
           type: integer
           format: int32
           description: Estimated minutes for the project
-          example: 120
+          examples: [120]
         status:
           type: string
           enum:
@@ -324,13 +330,13 @@ components:
             it SHOULD provide human-readable documentation for the problem type
             (e.g., using HTML).
           default: 'about:blank'
-          example: 'https://zalando.github.io/problem/constraint-violation'
+          examples: ['https://zalando.github.io/problem/constraint-violation']
         title:
           type: string
           description: |
             A short, summary of the problem type. Written in english and readable
             for engineers (usually not suited for non technical stakeholders and
-            not localized); example: Service Unavailable
+            not localized); examples: Service Unavailable
         status:
           type: integer
           format: int32
@@ -339,20 +345,20 @@ components:
             of the problem.
           minimum: 100
           maximum: 600
-          example: 503
+          examples: [503]
         detail:
           type: string
           description: |
             A human readable explanation specific to this occurrence of the
             problem.
-          example: Connection to database timed out
+          examples: [Connection to database timed out]
         instance:
           type: string
           format: uri
           description: |
             An absolute URI that identifies the specific occurrence of the problem.
             It may or may not yield further information if dereferenced.
-          example: 'https://example.com/problem/12345'
+          examples: ['https://example.com/problem/12345']
     Customer:
       type: object
       properties:
@@ -360,11 +366,11 @@ components:
           type: integer
           format: int64
           description: Identificativo unico del cliente
-          example: 1
+          examples: [1]
         name:
           type: string
           description: Nome del cliente
-          example: "Acme Corp"
+          examples: ["Acme Corp"]
         createDate:
           type: string
           format: date
@@ -381,6 +387,6 @@ components:
         name:
           type: string
           description: Nome del cliente
-          example: "Acme Corp"
+          examples: ["Acme Corp"]
       required:
         - name
