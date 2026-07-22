@@ -2,14 +2,8 @@ openapi: 3.1.0
 info:
   title: CodyLab OpenAPI definition
   version: v0
-servers:
-  - description: default server
-    url: ""
-    variables:
-      prefix:
-        default: api
 paths:
-  /auth/login:
+  /api/auth/login:
     post:
       tags:
         - auth-controller
@@ -143,11 +137,11 @@ paths:
     get:
       tags:
         - customer-controller
-      summary: Restituisce la lista di tutti i clienti
+      summary: Get all customers
       operationId: getAllCustomers
       responses:
         '200':
-          description: Lista di clienti recuperata con successo
+          description: Successful response
           content:
             application/json:
               schema:
@@ -191,17 +185,17 @@ paths:
     get:
       tags:
         - customer-controller
-      summary: Restituisce un cliente specifico tramite ID
+      summary: Get a customer by ID
       operationId: getCustomerById
       responses:
         '200':
-          description: Cliente trovato
+          description: Customer found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Customer'
         '404':
-          description: Cliente non trovato
+          description: Customer not found
           content:
             application/json:
               schema:
@@ -365,28 +359,19 @@ components:
         id:
           type: integer
           format: int64
-          description: Identificativo unico del cliente
+          description: Unique identifier of the customer
           examples: [1]
         name:
           type: string
-          description: Nome del cliente
+          description: Name of the customer
           examples: ["Acme Corp"]
         createDate:
           type: string
           format: date
-          description: Data di creazione
+          description: Creation date
         updateDate:
           type: string
           format: date
-          description: Data di ultimo aggiornamento
-      required:
-        - name
-    CustomerRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Nome del cliente
-          examples: ["Acme Corp"]
+          description: Last update date
       required:
         - name
