@@ -28,22 +28,18 @@ public class OpenApiAuthController implements AuthControllerApi {
     @Override
     public ResponseEntity<UserApiDTO> registerUser(RegisterRequestApiDTO registerRequestApiDTO) {
         if (!registerRequestApiDTO.getPassword().equals(registerRequestApiDTO.getConfirmPassword())) {
-            return ResponseEntity.badRequest().build();
+            throw new IllegalArgumentException("Passwords do not match");
         }
-        try {
-            User user = userService.register(
-                    registerRequestApiDTO.getName(),
-                    registerRequestApiDTO.getSurname(),
-                    registerRequestApiDTO.getUsername(),
-                    registerRequestApiDTO.getPassword()
-            );
-            String token = jwtService.generateToken(user.getUsername());
-            UserApiDTO userDto = userMapper.mapToApiDto(user);
-            userDto.setAccessToken(token);
-            return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        User user = userService.register(
+                registerRequestApiDTO.getName(),
+                registerRequestApiDTO.getSurname(),
+                registerRequestApiDTO.getUsername(),
+                registerRequestApiDTO.getPassword()
+        );
+        String token = jwtService.generateToken(user.getUsername());
+        UserApiDTO userDto = userMapper.mapToApiDto(user);
+        userDto.setAccessToken(token);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
     @Override
