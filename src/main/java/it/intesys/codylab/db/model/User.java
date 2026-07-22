@@ -1,15 +1,29 @@
 package it.intesys.codylab.db.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String surname;
+
+    @Column(nullable = false, unique = true, length = 64)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(name = "create_date", nullable = false)
     private LocalDate createDate;
+
+    @Column(name = "update_date")
     private LocalDate updateDate;
 
     public User() {
