@@ -16,8 +16,6 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    // --- (Dania) ---
-
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
@@ -25,8 +23,6 @@ public class CustomerService {
     public Optional<Customer> getCustomerById(Long id) {
         return customerRepository.findById(id);
     }
-
-    // --- (Michele) ---
 
     public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);

@@ -3,3 +3,8 @@ spring:
     name: codylab-talent-2026
 server:
   port: 8088
+
+
+openapi:
+  codylab:
+    base-path: /api/v1
