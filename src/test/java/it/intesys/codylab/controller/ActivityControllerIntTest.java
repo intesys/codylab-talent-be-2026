@@ -15,9 +15,11 @@ class ActivityControllerIntTest extends BaseControllerIntTest {
     @Autowired
     MockMvc mvc;
 
+    private String auth() { return "Bearer " + authToken(); }
+
     @Test
     void findAllShouldReturnOk() throws Exception {
-        mvc.perform(get("/activities"))
+        mvc.perform(get("/activities").header("Authorization", auth()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(1)));
