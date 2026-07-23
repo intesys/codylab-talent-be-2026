@@ -1,0 +1,503 @@
+### Variabili globali
+@baseUrl = http://localhost:8088
+@authToken = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtcm9zc2kiLCJpYXQiOjE3ODQ3OTc5NzQsImV4cCI6MTc4NDg4NDM3NH0.P2mljbSVmjsQ7NCekiT3WtD1rtAfn2E152DGw1Kp7a4
+
+### ==========================================
+### AUTH - Registrazione
+### ==========================================
+
+### Registrazione nuovo utente (201)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "name": "Mario",
+  "surname": "Rossi",
+  "username": "mario.rossi.test",
+  "password": "Password1!",
+  "confirmPassword": "Password1!"
+}
+
+### Registrazione - password non coincidono (400)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "mario.rossi2",
+  "password": "Password1!",
+  "confirmPassword": "DifferentPass1!"
+}
+
+### Registrazione - username mancante (400)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "password": "Password1!",
+  "confirmPassword": "Password1!"
+}
+
+### Registrazione - password debole (400)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "mario.rossi3",
+  "password": "weak",
+  "confirmPassword": "weak"
+}
+
+### Registrazione - body vuoto (400)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{}
+
+### ==========================================
+### AUTH - Login
+### ==========================================
+
+### Login con utente seed esistente (200)
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "mrossi",
+  "password": "Password1!"
+}
+
+### Login - password errata (401)
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "mrossi",
+  "password": "WrongPass1!"
+}
+
+### Login - utente inesistente (401)
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "nonexistent",
+  "password": "Password1!"
+}
+
+### Login con Basic auth (mrossi:password1)
+POST {{baseUrl}}/api/v1/auth/login
+Authorization: Basic bXJvc3NpOnBhc3N3b3JkMQ==
+Content-Type: application/json
+
+{
+  "username": "mrossi",
+  "password": "password1"
+}
+
+### ==========================================
+### NOTA: Dopo aver eseguito il login, copia
+### il campo "accessToken" dalla risposta e
+### aggiorna la variabile @authToken qui sopra.
+### ==========================================
+
+### ==========================================
+### PROJECTS (protette - richiedono token)
+### Endpoint disponibili:
+###   - /api/v1/projects (OpenAPI)
+###   - /projects         (plain ProjectController)
+### ==========================================
+
+### --- /projects (plain) ---
+
+### GET tutti i progetti (200)
+GET {{baseUrl}}/projects
+Authorization: Bearer {{authToken}}
+
+### GET progetto per ID (200)
+GET {{baseUrl}}/projects/1
+Authorization: Bearer {{authToken}}
+
+### GET progetto inesistente (404)
+GET {{baseUrl}}/projects/999
+Authorization: Bearer {{authToken}}
+
+### POST crea nuovo progetto (201)
+POST {{baseUrl}}/projects
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "Nuovo Progetto",
+  "description": "Progetto creato per test",
+  "estimatedHours": 120,
+  "status": "CREATED",
+  "startDate": "2026-07-01",
+  "endDate": "2026-09-30"
+}
+
+### PUT aggiorna progetto (200)
+PUT {{baseUrl}}/projects/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "CRM Aziendale - Aggiornato",
+  "description": "Descrizione aggiornata del progetto",
+  "estimatedHours": 350,
+  "status": "WORKING",
+  "startDate": "2026-06-03",
+  "endDate": "2026-09-30"
+}
+
+### PUT progetto inesistente (404)
+PUT {{baseUrl}}/projects/999
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "Inesistente",
+  "description": "Questo progetto non esiste",
+  "estimatedHours": 100,
+  "status": "CREATED",
+  "startDate": "2026-07-01",
+  "endDate": "2026-08-01"
+}
+
+### DELETE elimina progetto (200)
+DELETE {{baseUrl}}/projects/7
+Authorization: Bearer {{authToken}}
+
+### DELETE progetto inesistente (404)
+DELETE {{baseUrl}}/projects/999
+Authorization: Bearer {{authToken}}
+
+### --- /api/v1/projects (OpenAPI) ---
+
+### GET tutti i progetti via OpenAPI (200)
+GET {{baseUrl}}/api/v1/projects
+Authorization: Bearer {{authToken}}
+
+### GET progetto per ID via OpenAPI (200)
+GET {{baseUrl}}/api/v1/projects/1
+Authorization: Bearer {{authToken}}
+
+### POST crea nuovo progetto via OpenAPI (200/201)
+POST {{baseUrl}}/api/v1/projects
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "Nuovo Progetto OpenAPI",
+  "description": "Tramite controller OpenAPI",
+  "estimatedHours": 80,
+  "status": "CREATED",
+  "startDate": "2026-07-15",
+  "endDate": "2026-09-15"
+}
+
+### ==========================================
+### CUSTOMERS (protette - richiedono token)
+### Endpoint disponibili:
+###   - /api/v1/customers (OpenAPI)
+###   - /customers         (plain CustomerController)
+### ==========================================
+
+### --- /customers (plain) ---
+
+### GET tutti i clienti (200)
+GET {{baseUrl}}/customers
+Authorization: Bearer {{authToken}}
+
+### GET cliente per ID (200)
+GET {{baseUrl}}/customers/1
+Authorization: Bearer {{authToken}}
+
+### GET cliente inesistente (404)
+GET {{baseUrl}}/customers/999
+Authorization: Bearer {{authToken}}
+
+### POST crea nuovo cliente (201)
+POST {{baseUrl}}/customers
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Nuovo Cliente Srl"
+}
+
+### PUT aggiorna cliente (200)
+PUT {{baseUrl}}/customers/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Acme Srl - Aggiornata"
+}
+
+### PUT cliente inesistente (404)
+PUT {{baseUrl}}/customers/999
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Inesistente"
+}
+
+### DELETE elimina cliente (200)
+DELETE {{baseUrl}}/customers/5
+Authorization: Bearer {{authToken}}
+
+### DELETE cliente inesistente (404)
+DELETE {{baseUrl}}/customers/999
+Authorization: Bearer {{authToken}}
+
+### --- /api/v1/customers (OpenAPI) ---
+
+### GET tutti i clienti via OpenAPI (200)
+GET {{baseUrl}}/api/v1/customers
+Authorization: Bearer {{authToken}}
+
+### GET cliente per ID via OpenAPI (200)
+GET {{baseUrl}}/api/v1/customers/1
+Authorization: Bearer {{authToken}}
+
+### POST crea nuovo cliente via OpenAPI (201)
+POST {{baseUrl}}/api/v1/customers
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Nuovo Cliente OpenAPI"
+}
+
+### PUT aggiorna cliente via OpenAPI (200)
+PUT {{baseUrl}}/api/v1/customers/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Acme Srl - Aggiornata via OpenAPI"
+}
+
+### DELETE elimina cliente via OpenAPI (204)
+DELETE {{baseUrl}}/api/v1/customers/5
+Authorization: Bearer {{authToken}}
+
+### ==========================================
+### ACTIVITIES (protette - richiedono token)
+### Endpoint disponibili:
+###   - /api/v1/activities (OpenAPI)
+###   - /activities         (plain ActivityController)
+### ==========================================
+
+### --- /activities (plain) ---
+
+### GET tutte le attività (200)
+GET {{baseUrl}}/activities
+Authorization: Bearer {{authToken}}
+
+### GET attività per ID (200)
+GET {{baseUrl}}/activities/1
+Authorization: Bearer {{authToken}}
+
+### GET attività inesistente (404)
+GET {{baseUrl}}/activities/999
+Authorization: Bearer {{authToken}}
+
+### POST crea nuova attività (201)
+POST {{baseUrl}}/activities
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Nuova Attività",
+  "estimatedHours": 40,
+  "projectId": 1
+}
+
+### PUT aggiorna attività (200)
+PUT {{baseUrl}}/activities/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Analisi requisiti CRM - Aggiornata",
+  "estimatedHours": 50,
+  "projectId": 1
+}
+
+### PUT attività inesistente (404)
+PUT {{baseUrl}}/activities/999
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Inesistente",
+  "estimatedHours": 10,
+  "projectId": 1
+}
+
+### DELETE elimina attività (200)
+DELETE {{baseUrl}}/activities/17
+Authorization: Bearer {{authToken}}
+
+### DELETE attività inesistente (404)
+DELETE {{baseUrl}}/activities/999
+Authorization: Bearer {{authToken}}
+
+### --- /api/v1/activities (OpenAPI) ---
+
+### GET tutte le attività via OpenAPI (200)
+GET {{baseUrl}}/api/v1/activities
+Authorization: Bearer {{authToken}}
+
+### GET attività per ID via OpenAPI (200)
+GET {{baseUrl}}/api/v1/activities/1
+Authorization: Bearer {{authToken}}
+
+### POST crea nuova attività via OpenAPI (201)
+POST {{baseUrl}}/api/v1/activities
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Nuova Attività OpenAPI",
+  "estimatedHours": 30,
+  "projectId": 1
+}
+
+### PUT aggiorna attività via OpenAPI (200)
+PUT {{baseUrl}}/api/v1/activities/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Analisi requisiti CRM - OpenAPI",
+  "estimatedHours": 45,
+  "projectId": 1
+}
+
+### DELETE elimina attività via OpenAPI (204)
+DELETE {{baseUrl}}/api/v1/activities/17
+Authorization: Bearer {{authToken}}
+
+### ==========================================
+### TRACKINGS (protette - richiedono token)
+### Endpoint disponibili:
+###   - /api/v1/trackings (OpenAPI)
+###   - /trackings         (plain TrackingController)
+### ==========================================
+
+### --- /trackings (plain) ---
+
+### GET tutti i tracking (200)
+GET {{baseUrl}}/trackings
+Authorization: Bearer {{authToken}}
+
+### GET tracking per ID (200)
+GET {{baseUrl}}/trackings/1
+Authorization: Bearer {{authToken}}
+
+### GET tracking inesistente (404)
+GET {{baseUrl}}/trackings/999
+Authorization: Bearer {{authToken}}
+
+### POST crea nuovo tracking (201)
+POST {{baseUrl}}/trackings
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "description": "Sviluppo feature di test",
+  "durationMinutes": 120,
+  "activityId": 1,
+  "userId": 1
+}
+
+### PUT aggiorna tracking (200)
+PUT {{baseUrl}}/trackings/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "description": "Sviluppo task di analisi - Aggiornato",
+  "durationMinutes": 180,
+  "activityId": 1,
+  "userId": 1
+}
+
+### PUT tracking inesistente (404)
+PUT {{baseUrl}}/trackings/999
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "description": "Inesistente",
+  "durationMinutes": 60,
+  "activityId": 1,
+  "userId": 1
+}
+
+### DELETE elimina tracking (204)
+DELETE {{baseUrl}}/trackings/3
+Authorization: Bearer {{authToken}}
+
+### DELETE tracking inesistente (404)
+DELETE {{baseUrl}}/trackings/999
+Authorization: Bearer {{authToken}}
+
+### --- /api/v1/trackings (OpenAPI) ---
+
+### GET tutti i tracking via OpenAPI (200)
+GET {{baseUrl}}/api/v1/trackings
+Authorization: Bearer {{authToken}}
+
+### GET tracking per ID via OpenAPI (200)
+GET {{baseUrl}}/api/v1/trackings/1
+Authorization: Bearer {{authToken}}
+
+### POST crea nuovo tracking via OpenAPI (201)
+POST {{baseUrl}}/api/v1/trackings
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "description": "Tracking via OpenAPI",
+  "durationMinutes": 90,
+  "activityId": 1,
+  "userId": 1
+}
+
+### PUT aggiorna tracking via OpenAPI (200)
+PUT {{baseUrl}}/api/v1/trackings/1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "description": "Tracking aggiornato via OpenAPI",
+  "durationMinutes": 150,
+  "activityId": 1,
+  "userId": 1
+}
+
+### DELETE elimina tracking via OpenAPI (204)
+DELETE {{baseUrl}}/api/v1/trackings/3
+Authorization: Bearer {{authToken}}
+
+### ==========================================
+### TEST PROTEZIONE ENDPOINT
+### ==========================================
+
+### GET projects senza token (401)
+GET {{baseUrl}}/projects
+
+### GET projects con token invalido (401)
+GET {{baseUrl}}/projects
+Authorization: Bearer invalidtoken
+
+### GET projects via OpenAPI senza token (401)
+GET {{baseUrl}}/api/v1/projects
+
+### GET projects via OpenAPI con token invalido (401)
+GET {{baseUrl}}/api/v1/projects
+Authorization: Bearer invalidtoken

@@ -5,12 +5,13 @@ info:
 security:
   - bearerAuth: []
 paths:
-  /api/auth/register:
+  /auth/register:
     post:
       tags:
         - auth-controller
       summary: Register a new user
       operationId: registerUser
+      security: []
       requestBody:
         required: true
         content:
@@ -30,12 +31,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  /api/auth/login:
+  /auth/login:
    post:
     tags:
       - auth-controller
     summary: User login
     operationId: loginUser
+    security: []
     requestBody:
       required: true
       content:

@@ -67,11 +67,11 @@ INSERT INTO customers (name, create_date, update_date) VALUES
 -- USERS
 -- =========================
 INSERT INTO users (name, surname, username, password, create_date, update_date) VALUES
-                                                                                   ('Mario',  'Rossi',   'mrossi',   'password1', '2026-06-01', NULL),
-                                                                                   ('Luca',   'Bianchi', 'lbianchi', 'password2', '2026-06-01', NULL),
-                                                                                   ('Anna',   'Verdi',   'averdi',   'password3', '2026-06-01', NULL),
-                                                                                   ('Sara',   'Neri',    'sneri',    'password4', '2026-06-01', NULL),
-                                                                                   ('Paolo',  'Gialli',  'pgialli',  'password5', '2026-06-01', NULL);
+                                                                                    ('Mario',  'Rossi',   'mrossi',   '$2a$10$HYu1f42nnIh2itxzf0lCleCIDxZXDIdOSIBK4/Rt37UUKvPuc4dLC', '2026-06-01', NULL),
+                                                                                    ('Luca',   'Bianchi', 'lbianchi', '$2a$10$otsdd5uR5UwlnRWXYdzstuHj8C8TDWSVqPyBs.Iaxr6eWpU04R122', '2026-06-01', NULL),
+                                                                                    ('Anna',   'Verdi',   'averdi',   '$2a$10$wkYEEGsPYvZWIHBjRalk3e4PmKHsK6tGAtQZMgNK0ljmzI8dVnc5q', '2026-06-01', NULL),
+                                                                                    ('Sara',   'Neri',    'sneri',    '$2a$10$75Km/sHmpGCgDtt39JcMieBAMYQ7BL80DUO0ZDRS.LGHRyIwBbvse', '2026-06-01', NULL),
+                                                                                    ('Paolo',  'Gialli',  'pgialli',  '$2a$10$WB8iDtekd2GPVwlZ5K5uHO6/Y0orgH2c1ddt2H2rM5ch/oXpyhDia', '2026-06-01', NULL);
 
 -- =========================
 -- PROJECTS
