@@ -173,7 +173,7 @@ CREATE TABLE trackings (
                            id SERIAL PRIMARY KEY,
                            description TEXT NOT NULL,
                            duration_minutes INT NOT NULL,
-                           activity_id INT REFERENCES activities(id) ON DELETE CASCADE NOT NULL ,
+                           activity_id INT REFERENCES activities(id) ON DELETE CASCADE not null ,
                            user_id INT REFERENCES users(id) NOT NULL,
                            create_date DATE NOT NULL,
                            update_date DATE
