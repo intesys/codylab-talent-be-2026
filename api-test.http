@@ -1,6 +1,6 @@
 ### Variabili globali
 @baseUrl = http://localhost:8088
-@authToken = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtcm9zc2kiLCJpYXQiOjE3ODQ3OTc5NzQsImV4cCI6MTc4NDg4NDM3NH0.P2mljbSVmjsQ7NCekiT3WtD1rtAfn2E152DGw1Kp7a4
+@authToken = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJpby5yb3NzaS50ZXN0IiwiaWF0IjoxNzg1MjM2NTMxLCJleHAiOjE3ODUzMjI5MzF9.FnBkrCyWh1nEeV5khH38XMNywx5zXDTsSZW72SxCv8w
 
 ### ==========================================
 ### AUTH - Registrazione
@@ -62,7 +62,7 @@ POST {{baseUrl}}/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "username": "mrossi",
+  "username": "mario.rossi.test",
   "password": "Password1!"
 }
 
