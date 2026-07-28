@@ -19,19 +19,19 @@ class CustomerControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void findAllShouldReturnOk() throws Exception {
-        mvc.perform(get("/customers"))
+        mvc.perform(get("/api/v1/customers"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void findByIdShouldReturnNotFound() throws Exception {
-        mvc.perform(get("/customers/999"))
+        mvc.perform(get("/api/v1/customers/999"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void shouldReturn201Created() throws Exception {
-        mvc.perform(post("/customers")
+        mvc.perform(post("/api/v1/customers")
                         .contentType("application/json")
                         .content("{\"name\": \"Gamma Tech\"}"))
                 .andExpect(status().isCreated());
@@ -39,7 +39,7 @@ class CustomerControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void shouldReturn400BadRequest() throws Exception {
-        mvc.perform(post("/customers")
+        mvc.perform(post("/api/v1/customers")
                         .contentType("application/json")
                         .content("{\"name\": }"))
                 .andExpect(status().isBadRequest());
@@ -47,27 +47,27 @@ class CustomerControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void findByIdShouldReturnOk() throws Exception {
-        String response = mvc.perform(post("/customers")
+        String response = mvc.perform(post("/api/v1/customers")
                         .contentType("application/json")
                         .content("{\"name\": \"Customer Test\"}"))
                 .andReturn().getResponse().getContentAsString();
 
         String id = response.split("\"id\":")[1].split(",")[0].trim();
 
-        mvc.perform(get("/customers/" + id))
+        mvc.perform(get("/api/v1/customers/" + id))
                 .andExpect(status().isOk());
     }
 
     @Test
     void shouldUpdateCustomer() throws Exception {
-        String response = mvc.perform(post("/customers")
+        String response = mvc.perform(post("/api/v1/customers")
                         .contentType("application/json")
                         .content("{\"name\": \"Customer Old\"}"))
                 .andReturn().getResponse().getContentAsString();
 
         String id = response.split("\"id\":")[1].split(",")[0].trim();
 
-        mvc.perform(put("/customers/" + id)
+        mvc.perform(put("/api/v1/customers/" + id)
                         .contentType("application/json")
                         .content("{\"name\": \"Customer Updated\"}"))
                 .andExpect(status().isOk());
@@ -75,14 +75,14 @@ class CustomerControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void shouldDeleteOk() throws Exception {
-        String response = mvc.perform(post("/customers")
+        String response = mvc.perform(post("/api/v1/customers")
                         .contentType("application/json")
                         .content("{\"name\": \"Customer To Delete\"}"))
                 .andReturn().getResponse().getContentAsString();
 
         String id = response.split("\"id\":")[1].split(",")[0].trim();
 
-        mvc.perform(delete("/customers/" + id))
+        mvc.perform(delete("/api/v1/customers/" + id))
                 .andExpect(status().isOk());
     }
 }

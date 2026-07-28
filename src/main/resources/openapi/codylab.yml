@@ -2,6 +2,8 @@ openapi: 3.0.3
 info:
   title: CodyLab OpenAPI definition
   version: v0
+servers:
+  - url: /api/v1
 security:
   - bearerAuth: []
 paths:

@@ -36,7 +36,7 @@ class TrackingControllerIntTest extends BaseControllerIntTest {
 
     // Helper: crea un tracking via POST e ritorna l'id generato
     private long createTracking() throws Exception {
-        String response = mvc.perform(post("/trackings")
+        String response = mvc.perform(post("/api/v1/trackings")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(trackingJson("Test tracking")))
                 .andExpect(status().isCreated())
@@ -46,7 +46,7 @@ class TrackingControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void findAllShouldReturnOk() throws Exception {
-        mvc.perform(get("/trackings"))
+        mvc.perform(get("/api/v1/trackings"))
                 .andExpect(status().isOk());
     }
 
@@ -54,18 +54,18 @@ class TrackingControllerIntTest extends BaseControllerIntTest {
     void findByIdShouldReturnExistingTracking() throws Exception {
         long id = createTracking();
 
-        mvc.perform(get("/trackings/" + id))
+        mvc.perform(get("/api/v1/trackings/" + id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.description").value("Test tracking"));
 
         // cleanup
-        mvc.perform(delete("/trackings/" + id));
+        mvc.perform(delete("/api/v1/trackings/" + id));
     }
 
     @Test
     void findByIdShouldReturnNotFound() throws Exception {
-        mvc.perform(get("/trackings/999999"))
+        mvc.perform(get("/api/v1/trackings/999999"))
                 .andExpect(status().isNotFound());
     }
 
@@ -74,33 +74,33 @@ class TrackingControllerIntTest extends BaseControllerIntTest {
         long id = createTracking(); // dentro l'helper c'è già l'assert su 201
 
         // cleanup
-        mvc.perform(delete("/trackings/" + id));
+        mvc.perform(delete("/api/v1/trackings/" + id));
     }
 
     @Test
     void updateShouldReturnOkForExistingTracking() throws Exception {
         long id = createTracking();
 
-        mvc.perform(put("/trackings/" + id)
+        mvc.perform(put("/api/v1/trackings/" + id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(trackingJson("Updated description")))
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/trackings/" + id))
+        mvc.perform(get("/api/v1/trackings/" + id))
                 .andExpect(jsonPath("$.description").value("Updated description"));
 
         // cleanup
-        mvc.perform(delete("/trackings/" + id));
+        mvc.perform(delete("/api/v1/trackings/" + id));
     }
 
     @Test
     void deleteShouldRemoveExistingTracking() throws Exception {
         long id = createTracking();
 
-        mvc.perform(delete("/trackings/" + id))
+        mvc.perform(delete("/api/v1/trackings/" + id))
                 .andExpect(status().isNoContent());
 
-        mvc.perform(get("/trackings/" + id))
+        mvc.perform(get("/api/v1/trackings/" + id))
                 .andExpect(status().isNotFound());
     }
 }

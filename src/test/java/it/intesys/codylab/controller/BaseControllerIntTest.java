@@ -28,7 +28,7 @@ public abstract class BaseControllerIntTest {
     void setUpAuth() throws Exception {
         if (authToken == null) {
             String username = "testuser_" + System.currentTimeMillis();
-            mvc.perform(post("/api/auth/register")
+            mvc.perform(post("/api/v1/auth/register")
                             .contentType("application/json")
                             .content(String.format("""
                                     {
@@ -41,7 +41,7 @@ public abstract class BaseControllerIntTest {
                                     """, username)))
                     .andExpect(status().isCreated());
 
-            var result = mvc.perform(post("/api/auth/login")
+            var result = mvc.perform(post("/api/v1/auth/login")
                             .contentType("application/json")
                             .content(String.format("""
                                     {"username": "%s", "password": "Password1!"}

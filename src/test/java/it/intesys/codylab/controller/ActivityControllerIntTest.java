@@ -19,7 +19,7 @@ class ActivityControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void findAllShouldReturnOk() throws Exception {
-        mvc.perform(get("/activities").header("Authorization", auth()))
+        mvc.perform(get("/api/v1/activities").header("Authorization", auth()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(1)));
@@ -27,7 +27,7 @@ class ActivityControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void findByIdShouldReturnOkWithDetail() throws Exception {
-        mvc.perform(get("/activities/1"))
+        mvc.perform(get("/api/v1/activities/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").exists());
@@ -35,13 +35,13 @@ class ActivityControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void findByIdShouldReturn404NotFound() throws Exception {
-        mvc.perform(get("/activities/5000"))
+        mvc.perform(get("/api/v1/activities/5000"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void shouldReturn201Created() throws Exception {
-        MvcResult result = mvc.perform(post("/activities")
+        MvcResult result = mvc.perform(post("/api/v1/activities")
                         .contentType("application/json")
                         .content("""
                                 {
@@ -55,7 +55,7 @@ class ActivityControllerIntTest extends BaseControllerIntTest {
 
         String activityId = result.getResponse().getContentAsString();
 
-        mvc.perform(get("/activities/" + activityId))
+        mvc.perform(get("/api/v1/activities/" + activityId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(activityId))
                 .andExpect(jsonPath("$.name").value("Nuova Attivita Test"))
@@ -67,7 +67,7 @@ class ActivityControllerIntTest extends BaseControllerIntTest {
     void shouldUpdateActivity() throws Exception {
         String activityId = "2";
 
-        mvc.perform(put("/activities/" + activityId)
+        mvc.perform(put("/api/v1/activities/" + activityId)
                         .contentType("application/json")
                         .content("""
                                 {
@@ -78,7 +78,7 @@ class ActivityControllerIntTest extends BaseControllerIntTest {
                                 """))
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/activities/" + activityId))
+        mvc.perform(get("/api/v1/activities/" + activityId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Attivita Aggiornata"))
                 .andExpect(jsonPath("$.estimatedHours").value(40));
@@ -88,13 +88,13 @@ class ActivityControllerIntTest extends BaseControllerIntTest {
     void shouldDeleteOk() throws Exception {
         String activityId = "3";
 
-        mvc.perform(get("/activities/" + activityId))
+        mvc.perform(get("/api/v1/activities/" + activityId))
                 .andExpect(status().isOk());
 
-        mvc.perform(delete("/activities/" + activityId))
+        mvc.perform(delete("/api/v1/activities/" + activityId))
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/activities/" + activityId))
+        mvc.perform(get("/api/v1/activities/" + activityId))
                 .andExpect(status().isNotFound());
     }
 }

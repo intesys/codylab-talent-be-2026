@@ -16,7 +16,7 @@ class AuthControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void registerShouldReturn201() throws Exception {
-        mvc.perform(post("/api/auth/register")
+        mvc.perform(post("/api/v1/auth/register")
                         .contentType("application/json")
                         .content("""
                                 {
@@ -35,7 +35,7 @@ class AuthControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void registerShouldReturn400WhenPasswordsDontMatch() throws Exception {
-        mvc.perform(post("/api/auth/register")
+        mvc.perform(post("/api/v1/auth/register")
                         .contentType("application/json")
                         .content("""
                                 {
@@ -49,7 +49,7 @@ class AuthControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void registerShouldReturn400WhenUsernameMissing() throws Exception {
-        mvc.perform(post("/api/auth/register")
+        mvc.perform(post("/api/v1/auth/register")
                         .contentType("application/json")
                         .content("""
                                 {
@@ -62,7 +62,7 @@ class AuthControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void registerShouldReturn400WhenPasswordTooWeak() throws Exception {
-        mvc.perform(post("/api/auth/register")
+        mvc.perform(post("/api/v1/auth/register")
                         .contentType("application/json")
                         .content("""
                                 {
@@ -78,7 +78,7 @@ class AuthControllerIntTest extends BaseControllerIntTest {
     void loginShouldReturn200WithToken() throws Exception {
         registerUser("loginuser", "Password1!");
 
-        mvc.perform(post("/api/auth/login")
+        mvc.perform(post("/api/v1/auth/login")
                         .contentType("application/json")
                         .content("""
                                 {
@@ -96,7 +96,7 @@ class AuthControllerIntTest extends BaseControllerIntTest {
     void loginShouldReturn401WhenWrongPassword() throws Exception {
         registerUser("loginuser2", "Password1!");
 
-        mvc.perform(post("/api/auth/login")
+        mvc.perform(post("/api/v1/auth/login")
                         .contentType("application/json")
                         .content("""
                                 {
@@ -109,7 +109,7 @@ class AuthControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void loginShouldReturn401WhenUserNotFound() throws Exception {
-        mvc.perform(post("/api/auth/login")
+        mvc.perform(post("/api/v1/auth/login")
                         .contentType("application/json")
                         .content("""
                                 {
@@ -122,13 +122,13 @@ class AuthControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void protectedEndpointShouldReturn401WithoutToken() throws Exception {
-        mvc.perform(get("/projects"))
+        mvc.perform(get("/api/v1/projects"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void protectedEndpointShouldReturn401WithInvalidToken() throws Exception {
-        mvc.perform(get("/projects")
+        mvc.perform(get("/api/v1/projects")
                         .header("Authorization", "Bearer invalidtoken"))
                 .andExpect(status().isUnauthorized());
     }
@@ -137,13 +137,13 @@ class AuthControllerIntTest extends BaseControllerIntTest {
     void protectedEndpointShouldReturn200WithValidToken() throws Exception {
         String token = registerAndLogin("tokenuser", "Password1!");
 
-        mvc.perform(get("/projects")
+        mvc.perform(get("/api/v1/projects")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
     }
 
     private void registerUser(String username, String password) throws Exception {
-        mvc.perform(post("/api/auth/register")
+        mvc.perform(post("/api/v1/auth/register")
                         .contentType("application/json")
                         .content(String.format("""
                                 {
@@ -160,7 +160,7 @@ class AuthControllerIntTest extends BaseControllerIntTest {
     private String registerAndLogin(String username, String password) throws Exception {
         registerUser(username, password);
 
-        var result = mvc.perform(post("/api/auth/login")
+        var result = mvc.perform(post("/api/v1/auth/login")
                         .contentType("application/json")
                         .content(String.format("""
                                 {"username": "%s", "password": "%s"}

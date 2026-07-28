@@ -16,7 +16,7 @@ class ProjectControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void findAllShouldReturnOk() throws Exception {
-        mvc.perform(get("/projects"))
+        mvc.perform(get("/api/v1/projects"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(1)))
@@ -30,7 +30,7 @@ class ProjectControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void findAllShouldReturnOkWithProjectDetail() throws Exception {
-        mvc.perform(get("/projects/5"))
+        mvc.perform(get("/api/v1/projects/5"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.createDate").value("2026-06-01"))
                 .andExpect(jsonPath("$.description").value("Dashboard analitica per monitoraggio KPI commerciali"))
@@ -45,13 +45,13 @@ class ProjectControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void findAllShouldReturn404NotFound() throws Exception {
-        mvc.perform(get("/projects/5000"))
+        mvc.perform(get("/api/v1/projects/5000"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void shouldReturn400BadRequest() throws Exception {
-        mvc.perform(post("/projects")
+        mvc.perform(post("/api/v1/projects")
                         .contentType("application/json")
                         .content("""
                                 {
@@ -69,7 +69,7 @@ class ProjectControllerIntTest extends BaseControllerIntTest {
 
     @Test
     void shouldReturn201Created() throws Exception {
-        MvcResult result = mvc.perform(post("/projects")
+        MvcResult result = mvc.perform(post("/api/v1/projects")
                         .contentType("application/json")
                         .content("""
                                 {
@@ -86,7 +86,7 @@ class ProjectControllerIntTest extends BaseControllerIntTest {
                 .andExpect(header().exists("Location")).andReturn();
 
         String projectId = result.getResponse().getContentAsString();
-        mvc.perform(get("/projects/" + projectId))
+        mvc.perform(get("/api/v1/projects/" + projectId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description").value("Progetto Y per post codylab"))
                 .andExpect(jsonPath("$.endDate").value("2026-11-01"))
@@ -103,13 +103,13 @@ class ProjectControllerIntTest extends BaseControllerIntTest {
     void shouldDeleteOk() throws Exception {
         String projectId = "6";
 
-        mvc.perform(get("/projects/" + projectId))
+        mvc.perform(get("/api/v1/projects/" + projectId))
                 .andExpect(status().isOk());
 
-        mvc.perform(delete("/projects/" + projectId))
+        mvc.perform(delete("/api/v1/projects/" + projectId))
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/projects/" + projectId))
+        mvc.perform(get("/api/v1/projects/" + projectId))
                 .andExpect(status().isNotFound());
     }
 
@@ -117,10 +117,10 @@ class ProjectControllerIntTest extends BaseControllerIntTest {
     void shouldUpdateProject() throws Exception {
         String projectId = "7";
 
-        mvc.perform(get("/projects/" + projectId))
+        mvc.perform(get("/api/v1/projects/" + projectId))
                 .andExpect(status().isOk());
 
-        mvc.perform(put("/projects/" + projectId)
+        mvc.perform(put("/api/v1/projects/" + projectId)
                         .contentType("application/json")
                         .content("""
                                 {
@@ -135,7 +135,7 @@ class ProjectControllerIntTest extends BaseControllerIntTest {
                                 """))
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/projects/" + projectId))
+        mvc.perform(get("/api/v1/projects/" + projectId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description").value("Progetto Y per post codylab"))
                 .andExpect(jsonPath("$.endDate").value("2026-11-01"))
